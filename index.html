@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Montclair Import-Export — Catalogue</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --navy-deep:#0b1b2e;
+    --navy:#122744;
+    --navy-panel:#16304f;
+    --gold:#c9a24b;
+    --gold-soft:#e2c884;
+    --ivory:#f2ede1;
+    --slate:#8b98ab;
+    --line:rgba(201,162,75,0.22);
+    --status-dispo:#7fae7a;
+    --status-reserve:#c9a24b;
+    --status-vendu:#8a5555;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    background:var(--navy-deep);
+    color:var(--ivory);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+  }
+  a{color:inherit;}
+
+  /* ---------- HEADER ---------- */
+  header{
+    padding:2.5rem 6vw 2rem;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-end;
+    flex-wrap:wrap;
+    gap:1rem;
+  }
+  .brand-mark{display:flex; align-items:center; gap:14px;}
+  .brand-mark .seal{
+    width:46px; height:46px; border-radius:50%;
+    border:1px solid var(--gold);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-size:20px; color:var(--gold);
+    flex-shrink:0;
+  }
+  .brand-name{font-family:'Fraunces', serif; font-size:26px; letter-spacing:0.02em; color:var(--ivory);}
+  .brand-sub{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.18em; color:var(--gold); text-transform:uppercase; margin-top:2px;}
+  nav{display:flex; gap:2rem; font-size:13px; letter-spacing:0.04em; color:var(--slate);}
+  nav a{text-decoration:none; border-bottom:1px solid transparent; padding-bottom:3px; transition:border-color .2s, color .2s;}
+  nav a:hover{color:var(--gold-soft); border-color:var(--gold);}
+
+  /* ---------- HERO ---------- */
+  .hero{
+    padding:5rem 6vw 4rem;
+    border-bottom:1px solid var(--line);
+    max-width:900px;
+  }
+  .hero .eyebrow{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:1.2rem;
+  }
+  .hero h1{
+    font-family:'Fraunces', serif;
+    font-weight:500;
+    font-size:clamp(2.2rem, 4.5vw, 3.4rem);
+    line-height:1.15;
+    color:var(--ivory);
+    max-width:14ch;
+  }
+  .hero h1 em{color:var(--gold); font-style:normal;}
+  .hero p{
+    margin-top:1.5rem; color:var(--slate); font-size:16px; max-width:52ch;
+  }
+
+  /* ---------- FILTER TABS ---------- */
+  .filters{
+    position:sticky; top:0; z-index:10;
+    background:var(--navy-deep);
+    padding:1.4rem 6vw;
+    border-bottom:1px solid var(--line);
+    display:flex; gap:10px; flex-wrap:wrap;
+  }
+  .filter-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; letter-spacing:0.05em;
+    background:transparent;
+    border:1px solid rgba(139,152,171,0.35);
+    color:var(--slate);
+    padding:8px 16px;
+    border-radius:2px;
+    cursor:pointer;
+    transition:all .2s;
+    text-transform:uppercase;
+  }
+  .filter-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .filter-btn.active{background:var(--gold); border-color:var(--gold); color:var(--navy-deep); font-weight:500;}
+
+  /* ---------- SECTIONS ---------- */
+  main{padding:3rem 6vw 5rem;}
+  .section{margin-bottom:4rem;}
+  .section-head{
+    display:flex; align-items:baseline; gap:16px;
+    margin-bottom:1.8rem;
+    border-bottom:1px solid var(--line);
+    padding-bottom:1rem;
+  }
+  .section-num{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px; color:var(--gold); letter-spacing:0.1em;
+  }
+  .section-head h2{
+    font-family:'Fraunces', serif; font-weight:500; font-size:1.6rem; color:var(--ivory);
+  }
+  .section-count{
+    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate); margin-left:auto;
+  }
+
+  .grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:22px;
+  }
+
+  /* ---------- CARD ---------- */
+  .card{
+    background:var(--navy-panel);
+    border:1px solid var(--line);
+    border-radius:4px;
+    overflow:hidden;
+    display:flex; flex-direction:column;
+    position:relative;
+    transition:border-color .2s, transform .2s;
+  }
+  .card:hover{border-color:var(--gold); transform:translateY(-2px);}
+  .card-visual{
+    height:150px;
+    background:var(--navy);
+    display:flex; align-items:center; justify-content:center;
+    position:relative;
+    border-bottom:1px solid var(--line);
+  }
+  .card-visual svg{width:78%; height:auto; opacity:0.92;}
+  .ref{
+    position:absolute; top:10px; left:12px;
+    font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--slate);
+    letter-spacing:0.06em;
+  }
+  .stamp{
+    position:absolute; top:12px; right:-32px;
+    transform:rotate(35deg);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:10px; font-weight:500; letter-spacing:0.12em;
+    padding:3px 34px;
+    text-transform:uppercase;
+    border:1px solid currentColor;
+  }
+  .stamp.dispo{color:var(--status-dispo); background:rgba(127,174,122,0.08);}
+  .stamp.reserve{color:var(--status-reserve); background:rgba(201,162,75,0.08);}
+  .stamp.vendu{color:var(--status-vendu); background:rgba(138,85,85,0.08);}
+
+  .card-body{padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px; flex:1;}
+  .card-body h3{font-family:'Fraunces', serif; font-size:1.25rem; font-weight:500; color:var(--ivory);}
+  .card-cat{font-family:'IBM Plex Mono', monospace; font-size:10px; letter-spacing:0.1em; color:var(--gold); text-transform:uppercase;}
+
+  .specs{list-style:none; font-size:12.5px; color:var(--slate); display:flex; flex-direction:column; gap:4px; margin-top:4px;}
+  .specs li{display:flex; justify-content:space-between; border-bottom:1px dotted rgba(139,152,171,0.18); padding-bottom:4px;}
+  .specs li span:last-child{color:var(--ivory);}
+
+  .card-footer{
+    margin-top:auto; padding-top:14px; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:center;
+  }
+  .price{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--gold-soft);}
+  .cta{
+    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.04em;
+    color:var(--slate); text-decoration:none; border-bottom:1px solid var(--slate);
+    padding-bottom:2px; transition:color .2s, border-color .2s;
+  }
+  .cta:hover{color:var(--gold); border-color:var(--gold);}
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding:3rem 6vw; border-top:1px solid var(--line);
+    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;
+    color:var(--slate); font-size:13px;
+  }
+  footer .fmark{font-family:'Fraunces', serif; color:var(--ivory); font-size:15px; margin-bottom:6px;}
+
+  @media (max-width:640px){
+    header{flex-direction:column; align-items:flex-start;}
+    .filters{overflow-x:auto; flex-wrap:nowrap;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand-mark">
+    <div class="seal">M</div>
+    <div>
+      <div class="brand-name">Montclair</div>
+      <div class="brand-sub">Import · Export · Logistique</div>
+    </div>
+  </div>
+  <nav>
+    <a href="#catalogue">Catalogue</a>
+    <a href="#" onclick="return false;">Expertise</a>
+    <a href="#" onclick="return false;">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <div class="eyebrow">Dossier catalogue — Édition en cours</div>
+  <h1>Chaque véhicule a <em>un dossier.</em></h1>
+  <p>Théo Montclair sélectionne, importe et négocie chaque véhicule avec la même discrétion qu'une transaction d'affaires. Le catalogue ci-dessous est classé par catégorie — consultez, comparez, puis prenez contact pour une expertise personnalisée.</p>
+</section>
+
+<div class="filters" id="filters"></div>
+
+<main id="catalogue"></main>
+
+<footer>
+  <div>
+    <div class="fmark">Montclair Import-Export</div>
+    <div>Direction — Théo Montclair · Opérations — Paul Montclair</div>
+  </div>
+  <div>
+    Demandes et expertises sur rendez-vous.<br>
+    Contact via le salon <strong>#commandes-clients</strong> du serveur Discord.
+  </div>
+</footer>
+
+<script>
+const categories = [
+  {
+    id: 'citadines',
+    label: 'Citadines',
+    num: '01',
+    vehicles: [
+      { ref:'MTC-0112', name:'Blista', spec:{Moteur:'4 cyl. compact', Transmission:'Manuelle', Places:'4'}, price:'18 500 $', status:'dispo', icon:'compact' },
+      { ref:'MTC-0113', name:'Panto', spec:{Moteur:'Électrique urbain', Transmission:'Automatique', Places:'2'}, price:'14 200 $', status:'dispo', icon:'compact' },
+      { ref:'MTC-0114', name:'Issi', spec:{Moteur:'4 cyl. compact', Transmission:'Manuelle', Places:'4'}, price:'16 800 $', status:'reserve', icon:'compact' },
+    ]
+  },
+  {
+    id: 'berlines',
+    label:'Berlines',
+    num:'02',
+    vehicles:[
+      { ref:'MTC-0221', name:'Sultan', spec:{Moteur:'Turbo 4 cyl.', Transmission:'Automatique', Places:'5'}, price:'32 400 $', status:'dispo', icon:'sedan' },
+      { ref:'MTC-0222', name:'Asea', spec:{Moteur:'V6', Transmission:'Automatique', Places:'5'}, price:'27 900 $', status:'dispo', icon:'sedan' },
+      { ref:'MTC-0223', name:'Premier', spec:{Moteur:'6 cyl.', Transmission:'Automatique', Places:'5'}, price:'24 600 $', status:'vendu', icon:'sedan' },
+    ]
+  },
+  {
+    id: 'suv',
+    label:'SUV',
+    num:'03',
+    vehicles:[
+      { ref:'MTC-0331', name:'Baller', spec:{Moteur:'V8', Transmission:'Automatique', Places:'5'}, price:'58 900 $', status:'dispo', icon:'suv' },
+      { ref:'MTC-0332', name:'Cavalcade', spec:{Moteur:'V8', Transmission:'Automatique', Places:'7'}, price:'52 300 $', status:'reserve', icon:'suv' },
+      { ref:'MTC-0333', name:'Gresley', spec:{Moteur:'6 cyl. turbo', Transmission:'Automatique', Places:'5'}, price:'41 700 $', status:'dispo', icon:'suv' },
+    ]
+  },
+  {
+    id: 'sport',
+    label:'Sport & Muscle',
+    num:'04',
+    vehicles:[
+      { ref:'MTC-0441', name:'Vigero', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'4'}, price:'46 500 $', status:'dispo', icon:'muscle' },
+      { ref:'MTC-0442', name:'Dominator', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'2'}, price:'49 800 $', status:'dispo', icon:'muscle' },
+      { ref:'MTC-0443', name:'Gauntlet', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'2'}, price:'44 100 $', status:'vendu', icon:'muscle' },
+    ]
+  },
+  {
+    id: 'utilitaires',
+    label:'Utilitaires',
+    num:'05',
+    vehicles:[
+      { ref:'MTC-0551', name:'Bobcat', spec:{Moteur:'4 cyl. diesel', Transmission:'Manuelle', Places:'2'}, price:'21 300 $', status:'dispo', icon:'van' },
+      { ref:'MTC-0552', name:'Speedo', spec:{Moteur:'V6', Transmission:'Automatique', Places:'3'}, price:'23 900 $', status:'dispo', icon:'van' },
+      { ref:'MTC-0553', name:'Burrito', spec:{Moteur:'V6', Transmission:'Automatique', Places:'2'}, price:'22 400 $', status:'reserve', icon:'van' },
+    ]
+  },
+  {
+    id: 'prestige',
+    label:'Prestige',
+    num:'06',
+    vehicles:[
+      { ref:'MTC-0661', name:'Windsor', spec:{Moteur:'V12', Transmission:'Automatique', Places:'4'}, price:'118 000 $', status:'dispo', icon:'luxury' },
+      { ref:'MTC-0662', name:'Osiris', spec:{Moteur:'V12', Transmission:'Automatique', Places:'2'}, price:'265 000 $', status:'reserve', icon:'luxury' },
+      { ref:'MTC-0663', name:'Zentorno', spec:{Moteur:'V10', Transmission:'Automatique', Places:'2'}, price:'298 000 $', status:'dispo', icon:'luxury' },
+    ]
+  },
+];
+
+const statusLabel = { dispo:'Disponible', reserve:'Réservé', vendu:'Vendu' };
+
+const icons = {
+  compact: `<svg viewBox="0 0 120 60" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M15 42 Q15 28 30 26 L40 16 L78 16 L92 26 Q108 28 108 42 L108 46 L15 46 Z"/><circle cx="34" cy="46" r="7" fill="#122744"/><circle cx="88" cy="46" r="7" fill="#122744"/><line x1="46" y1="16" x2="46" y2="26"/><line x1="70" y1="16" x2="70" y2="26"/></svg>`,
+  sedan: `<svg viewBox="0 0 130 60" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M8 42 Q8 30 22 28 L34 14 L96 14 L112 28 Q124 30 124 42 L124 46 L8 46 Z"/><circle cx="30" cy="46" r="7" fill="#122744"/><circle cx="98" cy="46" r="7" fill="#122744"/><line x1="42" y1="14" x2="38" y2="28"/><line x1="88" y1="14" x2="92" y2="28"/></svg>`,
+  suv: `<svg viewBox="0 0 130 64" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M10 46 Q10 24 26 22 L36 10 L98 10 L112 22 Q122 24 122 46 L122 50 L10 50 Z"/><circle cx="32" cy="50" r="8" fill="#122744"/><circle cx="98" cy="50" r="8" fill="#122744"/><line x1="46" y1="10" x2="42" y2="22"/><line x1="88" y1="10" x2="92" y2="22"/></svg>`,
+  muscle: `<svg viewBox="0 0 130 56" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M6 38 Q10 24 26 22 L38 12 L90 12 L106 22 Q124 24 124 38 L124 42 L6 42 Z"/><circle cx="30" cy="42" r="8" fill="#122744"/><circle cx="98" cy="42" r="8" fill="#122744"/><line x1="20" y1="27" x2="112" y2="27"/></svg>`,
+  van: `<svg viewBox="0 0 130 62" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M10 44 L10 20 Q10 14 18 14 L100 14 Q112 14 116 24 L120 34 L120 44 L10 44 Z"/><circle cx="32" cy="44" r="8" fill="#122744"/><circle cx="98" cy="44" r="8" fill="#122744"/><line x1="46" y1="14" x2="46" y2="34"/></svg>`,
+  luxury: `<svg viewBox="0 0 140 56" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M6 40 Q6 26 22 24 L40 12 L104 12 L124 24 Q134 26 134 40 L134 44 L6 44 Z"/><circle cx="32" cy="44" r="8" fill="#122744"/><circle cx="104" cy="44" r="8" fill="#122744"/><line x1="50" y1="12" x2="46" y2="24"/><line x1="94" y1="12" x2="98" y2="24"/></svg>`,
+};
+
+const catalogueEl = document.getElementById('catalogue');
+const filtersEl = document.getElementById('filters');
+
+function renderFilters(active){
+  const all = [{id:'toutes', label:'Toutes'}, ...categories.map(c=>({id:c.id, label:c.label}))];
+  filtersEl.innerHTML = all.map(c =>
+    `<button class="filter-btn ${active===c.id?'active':''}" data-cat="${c.id}">${c.label}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>render(btn.dataset.cat));
+  });
+}
+
+function render(active){
+  renderFilters(active);
+  const shown = active==='toutes' ? categories : categories.filter(c=>c.id===active);
+  catalogueEl.innerHTML = shown.map(cat => `
+    <div class="section" id="${cat.id}">
+      <div class="section-head">
+        <span class="section-num">Section ${cat.num}</span>
+        <h2>${cat.label}</h2>
+        <span class="section-count">${cat.vehicles.length} véhicule${cat.vehicles.length>1?'s':''}</span>
+      </div>
+      <div class="grid">
+        ${cat.vehicles.map(v => `
+          <div class="card">
+            <div class="card-visual">
+              <span class="ref">${v.ref}</span>
+              <span class="stamp ${v.status}">${statusLabel[v.status]}</span>
+              ${icons[v.icon]}
+            </div>
+            <div class="card-body">
+              <div class="card-cat">${cat.label}</div>
+              <h3>${v.name}</h3>
+              <ul class="specs">
+                ${Object.entries(v.spec).map(([k,val])=>`<li><span>${k}</span><span>${val}</span></li>`).join('')}
+              </ul>
+              <div class="card-footer">
+                <span class="price">${v.price}</span>
+                <a class="cta" href="#" onclick="return false;">Demander une expertise →</a>
+              </div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+render('toutes');
+</script>
+
+</body>
+</html>
