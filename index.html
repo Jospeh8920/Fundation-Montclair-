@@ -402,6 +402,7 @@ let users = loadUsers();
 let adminIds = loadAdminIds();
 let editingVehicle = null;
 let photoPreviewData = null;
+let selectedCategory = categories[0]?.id || '';
 
 function loadStorageData(){
   const stored = localStorage.getItem(STORAGE_VEHICLES);
@@ -650,7 +651,7 @@ function renderAdmin(){
   const nameLabel = auth.name ? auth.name : 'Utilisateur Discord';
   const adminMessage = isAdmin() ? 'Vous avez accès complet à la gestion du catalogue.' : 'Vous êtes connecté(e) avec Discord. Seul l’administrateur peut modifier la liste.';
   const editVehicle = editingVehicle ? getVehicleData(editingVehicle.catId, editingVehicle.ref) : null;
-  const currentCategory = editVehicle ? editVehicle.catId : categories[0]?.id || '';
+  const currentCategory = editVehicle ? editVehicle.catId : selectedCategory || categories[0]?.id || '';
   const photoPreview = photoPreviewData || (editVehicle && editVehicle.photo) || '';
   const vehicleButtonLabel = editVehicle ? 'Enregistrer les modifications' : 'Ajouter le véhicule';
   const vehicleTitle = editVehicle ? 'Modifier le véhicule' : 'Ajouter un véhicule';
@@ -747,8 +748,12 @@ function renderAdmin(){
     const photoInput = document.getElementById('new-photo');
     if(photoInput) photoInput.addEventListener('change', handlePhotoSelected);
     const categoryAddBtn = document.getElementById('category-add');
-    if(categoryAddBtn) categoryAddBtn.addEventListener('click', handleAddCategory);
-    adminContentEl.querySelectorAll('.edit-vehicle').forEach(button=>{
+    if(categoryAddBtn) categoryAddBtn.addEventListener('click', handleAddCategory);    const categorySelect = document.getElementById('new-category');
+    if(categorySelect){
+      categorySelect.addEventListener('change', event => {
+        selectedCategory = event.target.value;
+      });
+    }    adminContentEl.querySelectorAll('.edit-vehicle').forEach(button=>{
       button.addEventListener('click', event=>{
         openEditVehicle(event.target.dataset.cat, event.target.dataset.ref);
       });
@@ -830,6 +835,7 @@ function handleAddCategory(event){
   }
   const num = (`0${categories.length + 1}`).slice(-2);
   categories.push({ id, label, num, vehicles: [] });
+  selectedCategory = id;
   saveStorageData();
   render(activeFilter);
   renderAdmin();
