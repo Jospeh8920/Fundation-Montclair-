@@ -416,6 +416,12 @@
       </div>
     </div>
   </div>
+  <div class="section-head" style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line);">
+    <span class="section-num">Section 03</span>
+    <h2>Organigramme</h2>
+    <span class="section-count">Rôles et responsabilités</span>
+  </div>
+  <div id="expertise-chart" class="expertise-grid"></div>
 </section>
 
 <div class="toolbar">
@@ -597,6 +603,13 @@ const categories = [
 
 const statusLabel = { dispo:'Disponible', reserve:'Réservé', vendu:'Vendu' };
 
+const expertiseNodes = [
+  { id:'leader', title:'Direction', role:'Théo Montclair', description:'Supervision des dossiers, sourcing stratégique et négociation.' },
+  { id:'sourcing', title:'Sourcing', role:'Recherche de véhicules', description:'Identification des meilleures offres et analyse marché.' },
+  { id:'logistique', title:'Logistique', role:'Transport & conformité', description:'Organisation du transport, du dédouanement et de la livraison.' },
+  { id:'expertise', title:'Expertise', role:'Contrôle qualité', description:'Inspection, estimation et validation des véhicules.' },
+];
+
 const icons = {
   compact: `<svg viewBox="0 0 120 60" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M15 42 Q15 28 30 26 L40 16 L78 16 L92 26 Q108 28 108 42 L108 46 L15 46 Z"/><circle cx="34" cy="46" r="7" fill="#122744"/><circle cx="88" cy="46" r="7" fill="#122744"/><line x1="46" y1="16" x2="46" y2="26"/><line x1="70" y1="16" x2="70" y2="26"/></svg>`,
   sedan: `<svg viewBox="0 0 130 60" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M8 42 Q8 30 22 28 L34 14 L96 14 L112 28 Q124 30 124 42 L124 46 L8 46 Z"/><circle cx="30" cy="46" r="7" fill="#122744"/><circle cx="98" cy="46" r="7" fill="#122744"/><line x1="42" y1="14" x2="38" y2="28"/><line x1="88" y1="14" x2="92" y2="28"/></svg>`,
@@ -621,6 +634,7 @@ const STORAGE_SESSION = 'mtc-montclair-session';
 const STORAGE_USERS = 'mtc-users-data';
 const STORAGE_ADMINS = 'mtc-admins-data';
 const STORAGE_STATS = 'mtc-stats-data';
+const STORAGE_EXPERTISE = 'mtc-expertise-data';
 
 const catalogueEl = document.getElementById('catalogue');
 const filtersEl = document.getElementById('filters');
@@ -702,6 +716,17 @@ function loadStats(){
 
 function saveStats(){
   localStorage.setItem(STORAGE_STATS, JSON.stringify(stats));
+}
+
+function loadExpertiseData(){
+  const stored = localStorage.getItem(STORAGE_EXPERTISE);
+  if(!stored) return expertiseNodes;
+  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
+  return expertiseNodes;
+}
+
+function saveExpertiseData(nodes){
+  localStorage.setItem(STORAGE_EXPERTISE, JSON.stringify(nodes));
 }
 
 function incrementStat(key){
@@ -989,6 +1014,85 @@ function handleContactSubmit(event){
   }
 }
 
+function renderExpertise(){
+  const expertiseChart = document.getElementById('expertise-chart');
+  if(!expertiseChart) return;
+  const nodes = loadExpertiseData();
+  expertiseChart.innerHTML = nodes.map(node => `
+    <div class="expertise-node" data-node="${node.id}">
+      <h4>${node.title}</h4>
+      <div class="node-role">${node.role}</div>
+      <p>${node.description}</p>
+      ${isAdmin() && editMode ? `
+        <div class="node-actions">
+          <button type="button" class="button-secondary edit-node" data-node="${node.id}">Modifier</button>
+          <button type="button" class="button-secondary delete-node" data-node="${node.id}">Supprimer</button>
+        </div>
+      ` : ''}
+    </div>
+  `).join('');
+  if(isAdmin() && editMode){
+    expertiseChart.insertAdjacentHTML('afterbegin', `<button id="add-expertise-node" class="tb-btn primary" type="button" style="grid-column:1/-1; justify-self:start;">Ajouter un rôle</button>`);
+    document.getElementById('add-expertise-node').addEventListener('click', () => {
+      const title = prompt('Titre du rôle');
+      const role = prompt('Nom du poste ou du responsable');
+      const description = prompt('Description du rôle');
+      if(title && role){
+        addExpertiseNode({ title, role, description: description || '' });
+      }
+    });
+    expertiseChart.querySelectorAll('.edit-node').forEach(button => {
+      button.addEventListener('click', event => {
+        const id = event.target.dataset.node;
+        editExpertiseNode(id);
+      });
+    });
+    expertiseChart.querySelectorAll('.delete-node').forEach(button => {
+      button.addEventListener('click', event => {
+        const id = event.target.dataset.node;
+        removeExpertiseNode(id);
+      });
+    });
+  }
+}
+
+function saveExpertiseNodes(nodes){
+  saveExpertiseData(nodes);
+}
+
+function addExpertiseNode(node){
+  const nodes = loadExpertiseData();
+  const id = node.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `expertise-${Date.now()}`;
+  nodes.push({ id, title: node.title, role: node.role, description: node.description });
+  saveExpertiseData(nodes);
+  renderExpertise();
+}
+
+function editExpertiseNode(id){
+  const nodes = loadExpertiseData();
+  const node = nodes.find(n => n.id === id);
+  if(!node) return;
+  const title = prompt('Titre du rôle', node.title);
+  const role = prompt('Nom du poste ou du responsable', node.role);
+  const description = prompt('Description du rôle', node.description);
+  if(title && role){
+    node.title = title;
+    node.role = role;
+    node.description = description || '';
+    saveExpertiseData(nodes);
+    renderExpertise();
+  }
+}
+
+function removeExpertiseNode(id){
+  const nodes = loadExpertiseData();
+  const node = nodes.find(n => n.id === id);
+  if(!node) return;
+  if(!confirm(`Supprimer le rôle "${node.title}" ?`)) return;
+  saveExpertiseData(nodes.filter(n => n.id !== id));
+  renderExpertise();
+}
+
 function handleToggleEdit(){
   if(!isAdmin()){
     renderAdmin();
@@ -1043,16 +1147,32 @@ function renderFilters(active){
       ${isAdmin() && editMode && c.id !== 'toutes' ? `<button class="filter-btn button-secondary delete-filter" data-cat="${c.id}" type="button" title="Supprimer la catégorie">×</button>` : ''}
     </div>
   `).join('');
+  if(isAdmin() && editMode){
+    filtersEl.insertAdjacentHTML('beforeend', `<button id="add-category-filter" class="tb-btn primary" type="button">Ajouter une gamme</button>`);
+  }
   filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
-    if(btn.classList.contains('delete-filter')) return;
-    btn.addEventListener('click', ()=>render(btn.dataset.cat));
+    if(btn.classList.contains('delete-filter') || btn.id === 'add-category-filter') return;
+    btn.addEventListener('click', event=>{
+      event.preventDefault();
+      render(btn.dataset.cat);
+    });
   });
   filtersEl.querySelectorAll('.delete-filter').forEach(btn=>{
     btn.addEventListener('click', event=>{
+      event.preventDefault();
       const id = event.target.dataset.cat;
+      alert('Attention : la suppression d\'une catégorie supprime également tous les véhicules associés.');
       removeCategory(id);
     });
   });
+  const addCategoryFilter = document.getElementById('add-category-filter');
+  if(addCategoryFilter){
+    addCategoryFilter.addEventListener('click', event => {
+      event.preventDefault();
+      const label = prompt('Nom de la nouvelle gamme');
+      if(label) createCategoryFromPrompt(label);
+    });
+  }
   const filterSelect = document.getElementById('filter-select');
   if(filterSelect){
     filterSelect.innerHTML = all.map(c => `<option value="${c.id}"${active===c.id?' selected':''}>${c.label}</option>`).join('');
@@ -1062,6 +1182,7 @@ function renderFilters(active){
 function render(active){
   activeFilter = active;
   renderFilters(active);
+  renderExpertise();
   const shown = active==='toutes' ? categories : categories.filter(c=>c.id===active);
   catalogueEl.innerHTML = shown.map(cat => `
     <div class="section" id="${cat.id}">
@@ -1104,23 +1225,28 @@ function render(active){
     </div>
   `).join('');
   if(isAdmin()){
-    catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
-      button.addEventListener('click', event=>{
-        openVehicleModal(event.target.dataset.cat, event.target.dataset.ref);
-      });
-    });
     catalogueEl.querySelectorAll('.status-select').forEach(select=>{
       select.addEventListener('change', event=>{
         updateVehicleStatus(event.target.dataset.cat, event.target.dataset.ref, event.target.value);
       });
     });
-    catalogueEl.querySelectorAll('.remove-vehicle').forEach(button=>{
-      button.addEventListener('click', event=>{
-        removeVehicle(event.target.dataset.cat, event.target.dataset.ref);
-      });
-    });
   }
 }
+
+catalogueEl.addEventListener('click', event => {
+  const target = event.target instanceof Element ? event.target : event.currentTarget;
+  const editButton = target.closest('.edit-vehicle');
+  if(editButton){
+    event.preventDefault();
+    openVehicleModal(editButton.dataset.cat, editButton.dataset.ref);
+    return;
+  }
+  const removeButton = target.closest('.remove-vehicle');
+  if(removeButton){
+    event.preventDefault();
+    removeVehicle(removeButton.dataset.cat, removeButton.dataset.ref);
+  }
+});
 
 function buildCategoryOptions(selected = ''){
   return categories.map(c=>`<option value="${c.id}"${c.id===selected ? ' selected' : ''}>${c.label}</option>`).join('');
