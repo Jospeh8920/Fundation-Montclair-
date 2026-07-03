@@ -359,11 +359,12 @@ const icons = {
 
 // Pour activer l'authentification Discord : créez une application Discord et ajoutez l'URL
 // exacte de cette page comme redirect URI dans la configuration de l'application.
-// Puis copiez le client ID à 18 chiffres ici et ajoutez l'ID Discord de l'administrateur si nécessaire.
-const DISCORD_CLIENT_ID = 'https://discord.com/oauth2/authorize?client_id=1522619149094879253&response_type=code&redirect_uri=https%3A%2F%2Fjospeh8920.github.io%2FFundation-Montclair-%2F&scope=connections+identify';
+// Tout le monde peut se connecter avec Discord.
+// Seul l'ID Discord listé ci-dessous aura les droits d'administration.
+const DISCORD_CLIENT_ID = '1522619149094879253';
 const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 const DISCORD_SCOPES = 'identify';
-const ALLOWED_ADMIN_DISCORD_IDS = [''];
+const ALLOWED_ADMIN_DISCORD_IDS = ['401736618420994048'];
 const LOCAL_ADMIN = { username:'montclair', password:'montclair', name:'Théo Montclair' };
 const STORAGE_VEHICLES = 'mtc-vehicles-data';
 const STORAGE_SESSION = 'mtc-montclair-session';
@@ -548,7 +549,7 @@ function renderAdmin(){
         <button id="login-submit" class="button-primary">Se connecter</button>
         <button id="login-discord" type="button" class="button-secondary">Se connecter avec Discord</button>
       </div>
-      <p class="note">Utilisez le mot de passe admin pour accéder au module de gestion du catalogue. La connexion Discord permet d'identifier n'importe quel utilisateur.</p>
+      <p class="note">La connexion Discord est ouverte à tous. Seul l'ID administrateur enregistré peut modifier le catalogue.</p>
     `;
     document.getElementById('login-submit').addEventListener('click', handlePasswordLogin);
     document.getElementById('login-discord').addEventListener('click', startDiscordLogin);
