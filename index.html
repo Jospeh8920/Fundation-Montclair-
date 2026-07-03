@@ -146,6 +146,7 @@
     border-bottom:1px solid var(--line);
   }
   .card-visual svg{width:78%; height:auto; opacity:0.92;}
+  .card-visual img{width:100%; height:100%; object-fit:cover;}
   .ref{
     position:absolute; top:10px; left:12px;
     font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--slate);
@@ -222,6 +223,24 @@
   .admin-panel .admin-card-row button{padding:0.65rem 0.85rem;}
   .admin-panel .card-admin-controls{margin-top:0.9rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;}
   .admin-panel .card-admin-controls select{min-width:146px;}
+  .photo-preview{
+    min-height:120px;
+    border:1px dashed rgba(255,255,255,0.18);
+    border-radius:6px;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--slate);
+    margin-bottom:0.8rem;
+    background:rgba(255,255,255,0.03);
+  }
+  .photo-preview img{
+    max-width:100%;
+    max-height:160px;
+    object-fit:contain;
+    border-radius:4px;
+  }
   @media (max-width:680px){
     .admin-panel .admin-row{grid-template-columns:1fr;}
     .admin-panel .admin-card-row{flex-direction:column; align-items:flex-start;}
@@ -364,10 +383,12 @@ const icons = {
 const DISCORD_CLIENT_ID = '1522619149094879253';
 const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 const DISCORD_SCOPES = 'identify';
-const ALLOWED_ADMIN_DISCORD_IDS = ['401736618420994048'];
+const ADMIN_DISCORD_IDS = ['401736618420994048'];
 const LOCAL_ADMIN = { username:'montclair', password:'montclair', name:'Théo Montclair' };
 const STORAGE_VEHICLES = 'mtc-vehicles-data';
 const STORAGE_SESSION = 'mtc-montclair-session';
+const STORAGE_USERS = 'mtc-users-data';
+const STORAGE_ADMINS = 'mtc-admins-data';
 
 const catalogueEl = document.getElementById('catalogue');
 const filtersEl = document.getElementById('filters');
@@ -377,6 +398,10 @@ const adminCloseBtn = document.getElementById('admin-close');
 const accountLink = document.getElementById('account-link');
 let activeFilter = 'toutes';
 let auth = loadAuth();
+let users = loadUsers();
+let adminIds = loadAdminIds();
+let editingVehicle = null;
+let photoPreviewData = null;
 
 function loadStorageData(){
   const stored = localStorage.getItem(STORAGE_VEHICLES);
@@ -395,6 +420,59 @@ function loadAuth(){
 
 function saveAuth(){
   localStorage.setItem(STORAGE_SESSION, JSON.stringify(auth));
+}
+
+function loadUsers(){
+  const stored = localStorage.getItem(STORAGE_USERS);
+  if(!stored) return [];
+  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
+  return [];
+}
+
+function saveUsers(){
+  localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
+}
+
+function loadAdminIds(){
+  const stored = localStorage.getItem(STORAGE_ADMINS);
+  if(!stored) return [...ADMIN_DISCORD_IDS];
+  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
+  return [...ADMIN_DISCORD_IDS];
+}
+
+function saveAdminIds(){
+  localStorage.setItem(STORAGE_ADMINS, JSON.stringify(adminIds));
+}
+
+function ensureUser(user){
+  const discordId = user?.discordId || user?.id;
+  if(!discordId) return;
+  const now = new Date().toISOString();
+  const record = { id:discordId, name:user.name || user.username || 'Discord', lastSeen: now, isAdmin: adminIds.includes(discordId) };
+  const existing = users.find(u=>u.id===discordId);
+  if(existing){
+    existing.name = record.name;
+    existing.lastSeen = record.lastSeen;
+    existing.isAdmin = record.isAdmin;
+  } else {
+    users.push(record);
+  }
+  saveUsers();
+}
+
+function updateAdminStatus(discordId, isAdminStatus){
+  if(isAdminStatus){
+    if(!adminIds.includes(discordId)) adminIds.push(discordId);
+  } else {
+    adminIds = adminIds.filter(id=>id!==discordId);
+  }
+  saveAdminIds();
+  users = users.map(user => ({ ...user, isAdmin: user.id === discordId ? adminIds.includes(discordId) : user.isAdmin }));
+  saveUsers();
+  if(auth && auth.discordId === discordId){
+    auth.isAdmin = adminIds.includes(discordId);
+    saveAuth();
+  }
 }
 
 function clearAuth(){
@@ -438,8 +516,9 @@ async function handleDiscordRedirect(){
     auth = {
       name: user.username ? `${user.username}#${user.discriminator}` : 'Discord',
       discordId: user.id,
-      isAdmin: ALLOWED_ADMIN_DISCORD_IDS.includes(user.id)
+      isAdmin: adminIds.includes(user.id)
     };
+    ensureUser(auth);
     saveAuth();
     updateAccountLink();
     renderAdmin();
@@ -486,7 +565,7 @@ function render(active){
             <div class="card-visual">
               <span class="ref">${v.ref}</span>
               <span class="stamp ${v.status}">${statusLabel[v.status]}</span>
-              ${icons[v.icon] || icons.compact}
+              ${v.photo ? `<img src="${v.photo}" alt="${v.name}">` : icons[v.icon] || icons.compact}
             </div>
             <div class="card-body">
               <div class="card-cat">${cat.label}</div>
@@ -500,6 +579,7 @@ function render(active){
                     ${Object.entries(statusLabel).map(([key,label])=>`<option value="${key}"${key===v.status?' selected':''}>${label}</option>`).join('')}
                   </select>
                 </label>
+                <button type="button" class="filter-btn button-secondary edit-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Modifier</button>
                 <button type="button" class="filter-btn button-secondary remove-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Supprimer</button>
               </div>` : ''}
               <div class="card-footer">
@@ -526,8 +606,16 @@ function render(active){
   }
 }
 
-function buildCategoryOptions(){
-  return categories.map(c=>`<option value="${c.id}">${c.label}</option>`).join('');
+function buildCategoryOptions(selected = ''){
+  return categories.map(c=>`<option value="${c.id}"${c.id===selected ? ' selected' : ''}>${c.label}</option>`).join('');
+}
+
+function getVehicleData(catId, ref){
+  const category = categories.find(c=>c.id===catId);
+  if(!category) return null;
+  const vehicle = category.vehicles.find(v=>v.ref===ref);
+  if(!vehicle) return null;
+  return { ...vehicle, catId };
 }
 
 function renderAdmin(){
@@ -561,29 +649,49 @@ function renderAdmin(){
 
   const nameLabel = auth.name ? auth.name : 'Utilisateur Discord';
   const adminMessage = isAdmin() ? 'Vous avez accès complet à la gestion du catalogue.' : 'Vous êtes connecté(e) avec Discord. Seul l’administrateur peut modifier la liste.';
+  const editVehicle = editingVehicle ? getVehicleData(editingVehicle.catId, editingVehicle.ref) : null;
+  const currentCategory = editVehicle ? editVehicle.catId : categories[0]?.id || '';
+  const photoPreview = photoPreviewData || (editVehicle && editVehicle.photo) || '';
+  const vehicleButtonLabel = editVehicle ? 'Enregistrer les modifications' : 'Ajouter le véhicule';
+  const vehicleTitle = editVehicle ? 'Modifier le véhicule' : 'Ajouter un véhicule';
   const statusControl = isAdmin() ? `
       <div class="admin-section">
-        <h3>Ajouter un véhicule</h3>
-        <div class="admin-row">
-          <div class="field"><label for="new-category">Catégorie</label><select id="new-category">${buildCategoryOptions()}</select></div>
-          <div class="field"><label for="new-ref">Référence</label><input id="new-ref" type="text" placeholder="MTC-1001"></div>
+        <h3>${vehicleTitle}</h3>
+        <div class="field">
+          <label for="new-photo">Photo du véhicule</label>
+          <div class="photo-preview">${photoPreview ? `<img src="${photoPreview}" alt="Photo du véhicule">` : 'Aucune photo'}</div>
+          <input id="new-photo" type="file" accept="image/*">
         </div>
         <div class="admin-row">
-          <div class="field"><label for="new-name">Nom du véhicule</label><input id="new-name" type="text" placeholder="Nom"></div>
-          <div class="field"><label for="new-price">Prix</label><input id="new-price" type="text" placeholder="45 000 $"></div>
+          <div class="field"><label for="new-category">Catégorie</label><select id="new-category">${buildCategoryOptions(currentCategory)}</select></div>
+          <div class="field"><label for="new-ref">Référence</label><input id="new-ref" type="text" placeholder="MTC-1001" value="${editVehicle ? editVehicle.ref : ''}"></div>
         </div>
         <div class="admin-row">
-          <div class="field"><label for="new-engine">Moteur</label><input id="new-engine" type="text" placeholder="V6"></div>
-          <div class="field"><label for="new-transmission">Transmission</label><input id="new-transmission" type="text" placeholder="Automatique"></div>
+          <div class="field"><label for="new-name">Nom du véhicule</label><input id="new-name" type="text" placeholder="Nom" value="${editVehicle ? editVehicle.name : ''}"></div>
+          <div class="field"><label for="new-price">Prix</label><input id="new-price" type="text" placeholder="45 000 $" value="${editVehicle ? editVehicle.price : ''}"></div>
         </div>
         <div class="admin-row">
-          <div class="field"><label for="new-seats">Places</label><input id="new-seats" type="text" placeholder="5"></div>
-          <div class="field"><label for="new-icon">Icône</label><select id="new-icon"><option value="compact">Citadine</option><option value="sedan">Berline</option><option value="suv">SUV</option><option value="muscle">Sport</option><option value="van">Utilitaire</option><option value="luxury">Prestige</option></select></div>
+          <div class="field"><label for="new-engine">Moteur</label><input id="new-engine" type="text" placeholder="V6" value="${editVehicle ? editVehicle.spec.Moteur : ''}"></div>
+          <div class="field"><label for="new-transmission">Transmission</label><input id="new-transmission" type="text" placeholder="Automatique" value="${editVehicle ? editVehicle.spec.Transmission : ''}"></div>
         </div>
         <div class="admin-row">
-          <div class="field"><label for="new-status">Statut</label><select id="new-status"><option value="dispo">Disponible</option><option value="reserve">Réservé</option><option value="vendu">Vendu</option></select></div>
+          <div class="field"><label for="new-seats">Places</label><input id="new-seats" type="text" placeholder="5" value="${editVehicle ? editVehicle.spec.Places : ''}"></div>
+          <div class="field"><label for="new-icon">Icône</label><select id="new-icon"><option value="compact"${editVehicle && editVehicle.icon==='compact'?' selected':''}>Citadine</option><option value="sedan"${editVehicle && editVehicle.icon==='sedan'?' selected':''}>Berline</option><option value="suv"${editVehicle && editVehicle.icon==='suv'?' selected':''}>SUV</option><option value="muscle"${editVehicle && editVehicle.icon==='muscle'?' selected':''}>Sport</option><option value="van"${editVehicle && editVehicle.icon==='van'?' selected':''}>Utilitaire</option><option value="luxury"${editVehicle && editVehicle.icon==='luxury'?' selected':''}>Prestige</option></select></div>
         </div>
-        <div class="actions"><button id="vehicle-add" class="button-primary">Ajouter le véhicule</button></div>
+        <div class="admin-row">
+          <div class="field"><label for="new-status">Statut</label><select id="new-status"><option value="dispo"${editVehicle && editVehicle.status==='dispo'?' selected':''}>Disponible</option><option value="reserve"${editVehicle && editVehicle.status==='reserve'?' selected':''}>Réservé</option><option value="vendu"${editVehicle && editVehicle.status==='vendu'?' selected':''}>Vendu</option></select></div>
+        </div>
+        <div class="actions">
+          <button id="vehicle-save" class="button-primary">${vehicleButtonLabel}</button>
+          ${editVehicle ? '<button id="vehicle-cancel" class="button-secondary">Annuler</button>' : ''}
+        </div>
+      </div>
+      <div class="admin-section">
+        <h3>Ajouter une gamme</h3>
+        <div class="admin-row full">
+          <div class="field"><label for="new-category-label">Nom de la gamme</label><input id="new-category-label" type="text" placeholder="Nouvelle gamme"></div>
+        </div>
+        <div class="actions"><button id="category-add" class="button-primary">Ajouter la gamme</button></div>
       </div>
     ` : '';
 
@@ -600,6 +708,19 @@ function renderAdmin(){
         </div>
       `).join('')).join('');
 
+  const userList = users.map(user => `
+      <div class="admin-card-row">
+        <div>
+          <strong>${user.name}</strong>
+          <div style="font-size:12px; color:var(--slate); margin-top:4px;">ID: ${user.id} — Dernière connexion: ${new Date(user.lastSeen).toLocaleString('fr-FR')}</div>
+        </div>
+        <div class="actions">
+          <span style="color:${user.isAdmin ? '#c9a24b' : '#8b98ab'}; font-size:12px;">${user.isAdmin ? 'Admin' : 'Utilisateur'}</span>
+          ${isAdmin() ? `<button class="filter-btn button-secondary toggle-admin" data-id="${user.id}">${user.isAdmin ? 'Retirer admin' : 'Rendre admin'}</button>` : ''}
+        </div>
+      </div>
+    `).join('');
+
   adminContentEl.innerHTML = `
     <p class="note"><strong>${nameLabel}</strong><br>${adminMessage}</p>
     <div class="actions"><button id="logout-button" class="button-secondary">Se déconnecter</button></div>
@@ -608,6 +729,10 @@ function renderAdmin(){
       <h3>Véhicules enregistrés</h3>
       <div class="admin-list">${vehicleList}</div>
     </div>
+    ${isAdmin() ? `<div class="admin-section">
+      <h3>Utilisateurs Discord connectés</h3>
+      <div class="admin-list">${userList}</div>
+    </div>` : ''}
   `;
 
   document.getElementById('logout-button').addEventListener('click', () => {
@@ -615,7 +740,29 @@ function renderAdmin(){
     renderAdmin();
   });
   if(isAdmin()){
-    document.getElementById('vehicle-add').addEventListener('click', handleAddVehicle);
+    const vehicleSaveBtn = document.getElementById('vehicle-save');
+    if(vehicleSaveBtn) vehicleSaveBtn.addEventListener('click', handleSaveVehicle);
+    const vehicleCancelBtn = document.getElementById('vehicle-cancel');
+    if(vehicleCancelBtn) vehicleCancelBtn.addEventListener('click', handleCancelEdit);
+    const photoInput = document.getElementById('new-photo');
+    if(photoInput) photoInput.addEventListener('change', handlePhotoSelected);
+    const categoryAddBtn = document.getElementById('category-add');
+    if(categoryAddBtn) categoryAddBtn.addEventListener('click', handleAddCategory);
+    adminContentEl.querySelectorAll('.edit-vehicle').forEach(button=>{
+      button.addEventListener('click', event=>{
+        openEditVehicle(event.target.dataset.cat, event.target.dataset.ref);
+      });
+    });
+    adminContentEl.querySelectorAll('.toggle-admin').forEach(button=>{
+      button.addEventListener('click', event=>{
+        const id = event.target.dataset.id;
+        const user = users.find(u=>u.id===id);
+        if(user){
+          updateAdminStatus(id, !user.isAdmin);
+          renderAdmin();
+        }
+      });
+    });
     adminContentEl.querySelectorAll('.manage-status').forEach(select=>{
       select.addEventListener('change', event=>{
         updateVehicleStatus(event.target.dataset.cat, event.target.dataset.ref, event.target.value);
@@ -640,6 +787,96 @@ function handlePasswordLogin(){
   } else {
     alert('Identifiant ou mot de passe incorrect.');
   }
+}
+
+function openEditVehicle(catId, ref){
+  editingVehicle = { catId, ref };
+  const vehicle = getVehicleData(catId, ref);
+  if(vehicle){
+    photoPreviewData = vehicle.photo || null;
+  }
+  renderAdmin();
+}
+
+function handleCancelEdit(event){
+  event.preventDefault();
+  editingVehicle = null;
+  photoPreviewData = null;
+  renderAdmin();
+}
+
+function handlePhotoSelected(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    photoPreviewData = reader.result;
+    renderAdmin();
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleAddCategory(event){
+  event.preventDefault();
+  const label = (document.getElementById('new-category-label') || {}).value?.trim();
+  if(!label){
+    alert('Donnez un nom à la nouvelle gamme.');
+    return;
+  }
+  const id = label.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `gamme-${Date.now()}`;
+  if(categories.some(c=>c.id===id)){
+    alert('Cette gamme existe déjà.');
+    return;
+  }
+  const num = (`0${categories.length + 1}`).slice(-2);
+  categories.push({ id, label, num, vehicles: [] });
+  saveStorageData();
+  render(activeFilter);
+  renderAdmin();
+}
+
+function handleSaveVehicle(event){
+  event.preventDefault();
+  const editVehicle = editingVehicle ? getVehicleData(editingVehicle.catId, editingVehicle.ref) : null;
+  const category = document.getElementById('new-category').value;
+  const ref = document.getElementById('new-ref').value.trim() || `MTC-${Math.floor(Math.random()*9000)+1000}`;
+  const name = document.getElementById('new-name').value.trim();
+  const price = document.getElementById('new-price').value.trim();
+  const engine = document.getElementById('new-engine').value.trim();
+  const transmission = document.getElementById('new-transmission').value.trim();
+  const seats = document.getElementById('new-seats').value.trim();
+  const icon = document.getElementById('new-icon').value;
+  const status = document.getElementById('new-status').value;
+  if(!name || !price || !engine || !transmission || !seats){
+    alert('Remplissez tous les champs pour ajouter ou modifier le véhicule.');
+    return;
+  }
+  const item = {
+    ref,
+    name,
+    spec:{Moteur:engine, Transmission:transmission, Places:seats},
+    price,
+    status,
+    icon,
+    photo: photoPreviewData !== null ? photoPreviewData : (editVehicle ? editVehicle.photo : undefined)
+  };
+  const target = categories.find(c=>c.id===category);
+  if(!target) return;
+  if(editingVehicle){
+    const oldCategory = categories.find(c=>c.id===editingVehicle.catId);
+    const oldVehicleIndex = oldCategory?.vehicles.findIndex(v=>v.ref===editingVehicle.ref);
+    if(oldVehicleIndex !== undefined && oldVehicleIndex > -1){
+      oldCategory.vehicles.splice(oldVehicleIndex, 1);
+    }
+    target.vehicles.unshift(item);
+    editingVehicle = null;
+  } else {
+    target.vehicles.unshift(item);
+  }
+  photoPreviewData = null;
+  saveStorageData();
+  render(activeFilter);
+  renderAdmin();
 }
 
 function handleAddVehicle(){
