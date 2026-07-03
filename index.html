@@ -86,6 +86,68 @@
     border-bottom:1px solid var(--line);
     display:flex; gap:10px; flex-wrap:wrap;
   }
+  .toolbar{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+    background:var(--navy-deep);
+    padding:1rem 6vw;
+    border-bottom:1px solid var(--line);
+  }
+  .tb-btn{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:12px;
+    letter-spacing:0.08em;
+    text-transform:uppercase;
+    padding:0.75rem 1rem;
+    border:1px solid rgba(139,152,171,0.35);
+    border-radius:4px;
+    background:transparent;
+    color:var(--ivory);
+    cursor:pointer;
+    transition:all .2s;
+  }
+  .tb-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .tb-btn.primary{background:var(--gold); color:var(--navy-deep); border-color:var(--gold);}
+  .tb-sep{width:1px; height:24px; background:rgba(139,152,171,0.25);}
+  .tb-note{color:var(--slate); font-size:13px; margin-left:auto;}
+  .modal-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(11,27,46,0.92);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:1.5rem;
+    z-index:25;
+  }
+  .modal{
+    width:min(100%,520px);
+    background:var(--navy-panel);
+    border:1px solid var(--line);
+    border-radius:8px;
+    padding:1.5rem;
+    box-shadow:0 24px 48px rgba(0,0,0,0.25);
+  }
+  .modal h3{font-family:'Fraunces', serif; font-size:1.4rem; color:var(--ivory); margin-bottom:1rem;}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:1rem;}
+  .modal .field{margin-bottom:1rem;}
+  .modal input,.modal select{width:100%; font:inherit; color:var(--ivory); background:transparent; border:1px solid rgba(139,152,171,0.35); border-radius:4px; padding:0.85rem 1rem;}
+  .modal .photo-preview{
+    min-height:120px;
+    border:1px dashed rgba(255,255,255,0.18);
+    border-radius:6px;
+    padding:10px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    color:var(--slate);
+    margin-bottom:0.8rem;
+    background:rgba(255,255,255,0.03);
+  }
+  .modal .photo-preview img{max-width:100%; max-height:160px; object-fit:contain; border-radius:4px;}
   .filter-btn{
     font-family:'IBM Plex Mono', monospace;
     font-size:12px; letter-spacing:0.05em;
@@ -240,8 +302,10 @@
     max-height:160px;
     object-fit:contain;
     border-radius:4px;
-  }
-  @media (max-width:680px){
+  }  @media (max-width:760px){
+    .toolbar{flex-direction:column; align-items:flex-start;}
+    .field-row{grid-template-columns:1fr;}
+  }  @media (max-width:680px){
     .admin-panel .admin-row{grid-template-columns:1fr;}
     .admin-panel .admin-card-row{flex-direction:column; align-items:flex-start;}
   }
@@ -276,6 +340,61 @@
   <p>Théo Montclair sélectionne, importe et négocie chaque véhicule avec la même discrétion qu'une transaction d'affaires. Le catalogue ci-dessous est classé par catégorie — consultez, comparez, puis prenez contact pour une expertise personnalisée.</p>
 </section>
 
+<div class="toolbar">
+  <button class="tb-btn" id="toggle-edit">Mode édition</button>
+  <button class="tb-btn hidden" id="add-vehicle-btn">Ajouter un véhicule</button>
+  <div class="tb-sep"></div>
+  <button class="tb-btn" id="export-btn">Exporter les données</button>
+  <button class="tb-btn" id="import-btn">Importer les données</button>
+  <input type="file" id="import-input" accept="application/json" class="hidden">
+  <span class="tb-note" id="tb-note">Mode consultation</span>
+</div>
+
+<div class="modal-overlay hidden" id="modal-overlay">
+  <div class="modal">
+    <h3 id="modal-title">Ajouter un véhicule</h3>
+    <div class="photo-preview" id="photo-preview">Aucune photo</div>
+    <div class="field">
+      <label>Photo (optionnel)</label>
+      <input type="file" id="f-photo" accept="image/*">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label>Référence</label>
+        <input type="text" id="f-ref">
+      </div>
+      <div class="field">
+        <label>Catégorie</label>
+        <select id="f-cat"></select>
+      </div>
+    </div>
+    <div class="field">
+      <label>Nom du véhicule</label>
+      <input type="text" id="f-name" placeholder="ex. Sultan">
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Moteur</label><input type="text" id="f-moteur" placeholder="ex. V8"></div>
+      <div class="field"><label>Transmission</label><input type="text" id="f-transmission" placeholder="ex. Automatique"></div>
+    </div>
+    <div class="field-row">
+      <div class="field"><label>Places</label><input type="text" id="f-places" placeholder="ex. 5"></div>
+      <div class="field"><label>Prix ($)</label><input type="number" id="f-price" placeholder="ex. 32400"></div>
+    </div>
+    <div class="field">
+      <label>Statut</label>
+      <select id="f-status">
+        <option value="dispo">Disponible</option>
+        <option value="reserve">Réservé</option>
+        <option value="vendu">Vendu</option>
+      </select>
+    </div>
+    <div class="modal-actions">
+      <button class="tb-btn" id="modal-cancel">Annuler</button>
+      <button class="tb-btn primary" id="modal-save">Enregistrer</button>
+    </div>
+  </div>
+</div>
+
 <div id="admin-panel" class="admin-panel hidden" aria-hidden="true">
   <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="admin-title">
     <div class="admin-toolbar">
@@ -307,6 +426,7 @@ const categories = [
     id: 'citadines',
     label: 'Citadines',
     num: '01',
+    icon: 'compact',
     vehicles: [
       { ref:'MTC-0112', name:'Blista', spec:{Moteur:'4 cyl. compact', Transmission:'Manuelle', Places:'4'}, price:'18 500 $', status:'dispo', icon:'compact' },
       { ref:'MTC-0113', name:'Panto', spec:{Moteur:'Électrique urbain', Transmission:'Automatique', Places:'2'}, price:'14 200 $', status:'dispo', icon:'compact' },
@@ -389,6 +509,7 @@ const STORAGE_VEHICLES = 'mtc-vehicles-data';
 const STORAGE_SESSION = 'mtc-montclair-session';
 const STORAGE_USERS = 'mtc-users-data';
 const STORAGE_ADMINS = 'mtc-admins-data';
+const STORAGE_STATS = 'mtc-stats-data';
 
 const catalogueEl = document.getElementById('catalogue');
 const filtersEl = document.getElementById('filters');
@@ -397,9 +518,12 @@ const adminContentEl = document.getElementById('admin-content');
 const adminCloseBtn = document.getElementById('admin-close');
 const accountLink = document.getElementById('account-link');
 let activeFilter = 'toutes';
+let editMode = false;
+let modalEditing = null;
 let auth = loadAuth();
 let users = loadUsers();
 let adminIds = loadAdminIds();
+let stats = loadStats();
 let editingVehicle = null;
 let photoPreviewData = null;
 let selectedCategory = categories[0]?.id || '';
@@ -414,6 +538,18 @@ function loadStorageData(){
 function saveStorageData(){
   localStorage.setItem(STORAGE_VEHICLES, JSON.stringify(categories));
 }
+
+function countSiteClicks(event){
+  const target = event.target.closest('a, button, .filter-btn, .cta');
+  if(!target) return;
+  stats.clicks = (stats.clicks || 0) + 1;
+  if(target.classList.contains('filter-btn')) stats.filterClicks = (stats.filterClicks || 0) + 1;
+  if(target.classList.contains('cta')) stats.ctaClicks = (stats.ctaClicks || 0) + 1;
+  stats.lastVisit = new Date().toISOString();
+  saveStats();
+}
+
+document.addEventListener('click', countSiteClicks);
 
 function loadAuth(){
   try { return JSON.parse(localStorage.getItem(STORAGE_SESSION) || 'null'); } catch(e){ return null; }
@@ -443,6 +579,25 @@ function loadAdminIds(){
 
 function saveAdminIds(){
   localStorage.setItem(STORAGE_ADMINS, JSON.stringify(adminIds));
+}
+
+function loadStats(){
+  const stored = localStorage.getItem(STORAGE_STATS);
+  const defaultStats = { pageViews:0, clicks:0, filterClicks:0, ctaClicks:0, lastVisit: new Date().toISOString() };
+  if(!stored) return defaultStats;
+  try { const parsed = JSON.parse(stored); return { ...defaultStats, ...parsed }; } catch(e){}
+  return defaultStats;
+}
+
+function saveStats(){
+  localStorage.setItem(STORAGE_STATS, JSON.stringify(stats));
+}
+
+function incrementStat(key){
+  if(!stats[key] && stats[key] !== 0) stats[key] = 0;
+  stats[key] = (stats[key] || 0) + 1;
+  stats.lastVisit = new Date().toISOString();
+  saveStats();
 }
 
 function ensureUser(user){
@@ -539,6 +694,194 @@ function startDiscordLogin(){
   window.location.href = authUrl;
 }
 
+function populateCategoryOptions(selectId, selected = ''){
+  const select = document.getElementById(selectId);
+  if(!select) return;
+  select.innerHTML = categories.map(c=>`<option value="${c.id}"${c.id===selected ? ' selected' : ''}>${c.label}</option>`).join('');
+}
+
+function updateToolbar(){
+  const toggleEditBtn = document.getElementById('toggle-edit');
+  const addVehicleBtn = document.getElementById('add-vehicle-btn');
+  const tbNote = document.getElementById('tb-note');
+  if(toggleEditBtn) toggleEditBtn.textContent = editMode ? 'Mode consultation' : 'Mode édition';
+  if(addVehicleBtn) addVehicleBtn.classList.toggle('hidden', !editMode || !isAdmin());
+  if(tbNote) tbNote.textContent = editMode ? 'Mode édition' : 'Mode consultation';
+}
+
+function openVehicleModal(catId, ref){
+  modalEditing = ref ? { catId, ref } : null;
+  const title = document.getElementById('modal-title');
+  const photoPreview = document.getElementById('photo-preview');
+  const refInput = document.getElementById('f-ref');
+  const nameInput = document.getElementById('f-name');
+  const moteurInput = document.getElementById('f-moteur');
+  const transmissionInput = document.getElementById('f-transmission');
+  const placesInput = document.getElementById('f-places');
+  const priceInput = document.getElementById('f-price');
+  const statusInput = document.getElementById('f-status');
+  if(ref){
+    const vehicle = getVehicleData(catId, ref);
+    if(vehicle){
+      title.textContent = 'Modifier le véhicule';
+      refInput.value = vehicle.ref;
+      nameInput.value = vehicle.name;
+      moteurInput.value = vehicle.spec.Moteur;
+      transmissionInput.value = vehicle.spec.Transmission;
+      placesInput.value = vehicle.spec.Places;
+      priceInput.value = vehicle.price.replace(/[^0-9]/g, '');
+      statusInput.value = vehicle.status;
+      photoPreview.innerHTML = vehicle.photo ? `<img src="${vehicle.photo}" alt="Photo du véhicule">` : 'Aucune photo';
+      photoPreviewData = vehicle.photo || null;
+      populateCategoryOptions('f-cat', vehicle.catId);
+    }
+  } else {
+    title.textContent = 'Ajouter un véhicule';
+    refInput.value = '';
+    nameInput.value = '';
+    moteurInput.value = '';
+    transmissionInput.value = '';
+    placesInput.value = '';
+    priceInput.value = '';
+    statusInput.value = 'dispo';
+    photoPreview.innerHTML = 'Aucune photo';
+    photoPreviewData = null;
+    populateCategoryOptions('f-cat', selectedCategory || categories[0]?.id || '');
+  }
+  document.getElementById('modal-overlay').classList.remove('hidden');
+}
+
+function closeVehicleModal(){
+  document.getElementById('modal-overlay').classList.add('hidden');
+  const fileInput = document.getElementById('f-photo');
+  if(fileInput) fileInput.value = '';
+}
+
+function handleModalPhotoSelected(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    photoPreviewData = reader.result;
+    const preview = document.getElementById('photo-preview');
+    if(preview) preview.innerHTML = `<img src="${photoPreviewData}" alt="Photo du véhicule">`;
+  };
+  reader.readAsDataURL(file);
+}
+
+function saveModalVehicle(event){
+  event.preventDefault();
+  const category = document.getElementById('f-cat').value;
+  const ref = document.getElementById('f-ref').value.trim() || `MTC-${Math.floor(Math.random()*9000)+1000}`;
+  const name = document.getElementById('f-name').value.trim();
+  const price = document.getElementById('f-price').value.trim();
+  const engine = document.getElementById('f-moteur').value.trim();
+  const transmission = document.getElementById('f-transmission').value.trim();
+  const seats = document.getElementById('f-places').value.trim();
+  const status = document.getElementById('f-status').value;
+  if(!name || !price || !engine || !transmission || !seats){
+    alert('Remplissez tous les champs pour ajouter ou modifier le véhicule.');
+    return;
+  }
+  const item = {
+    ref,
+    name,
+    spec:{Moteur:engine, Transmission:transmission, Places:seats},
+    price: `${price} $`,
+    status,
+    icon: categories.find(c => c.id===category)?.icon || 'compact',
+    photo: photoPreviewData || undefined
+  };
+  const target = categories.find(c=>c.id===category);
+  if(!target) return;
+  if(modalEditing){
+    const oldCategory = categories.find(c=>c.id===modalEditing.catId);
+    const oldIndex = oldCategory?.vehicles.findIndex(v=>v.ref===modalEditing.ref);
+    if(oldCategory && oldIndex > -1){ oldCategory.vehicles.splice(oldIndex, 1); }
+    target.vehicles.unshift(item);
+    modalEditing = null;
+  } else {
+    target.vehicles.unshift(item);
+  }
+  selectedCategory = category;
+  saveStorageData();
+  render(activeFilter);
+  closeVehicleModal();
+}
+
+function exportData(){
+  const blob = new Blob([JSON.stringify(categories, null, 2)], { type:'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'montclair-catalogue.json';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+}
+
+function importDataFile(event){
+  const file = event.target.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const data = JSON.parse(reader.result);
+      if(Array.isArray(data)){
+        categories.length = 0;
+        categories.push(...data);
+        saveStorageData();
+        render(activeFilter);
+        renderAdmin();
+      } else {
+        alert('Fichier invalide.');
+      }
+    } catch (error){
+      alert('Impossible de lire le fichier JSON.');
+    }
+  };
+  reader.readAsText(file);
+}
+
+function handleToggleEdit(){
+  if(!isAdmin()){
+    renderAdmin();
+    adminPanelEl.classList.remove('hidden');
+    adminPanelEl.setAttribute('aria-hidden', 'false');
+    return;
+  }
+  editMode = !editMode;
+  updateToolbar();
+  render(activeFilter);
+}
+
+function enableCardEditButtons(){
+  if(!isAdmin()) return;
+  catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
+    button.addEventListener('click', event=>{
+      openVehicleModal(event.target.dataset.cat, event.target.dataset.ref);
+    });
+  });
+}
+
+function disableCardEditButtons(){
+  catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
+    button.removeEventListener('click', event=>{});
+  });
+}
+
+function setupToolbarListeners(){
+  document.getElementById('toggle-edit').addEventListener('click', handleToggleEdit);
+  document.getElementById('add-vehicle-btn').addEventListener('click', () => openVehicleModal());
+  document.getElementById('export-btn').addEventListener('click', exportData);
+  document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-input').click());
+  document.getElementById('import-input').addEventListener('change', importDataFile);
+  document.getElementById('modal-cancel').addEventListener('click', event => { event.preventDefault(); closeVehicleModal(); });
+  document.getElementById('modal-save').addEventListener('click', saveModalVehicle);
+  document.getElementById('f-photo').addEventListener('change', handleModalPhotoSelected);
+}
+
 function renderFilters(active){
   const all = [{id:'toutes', label:'Toutes'}, ...categories.map(c=>({id:c.id, label:c.label}))];
   filtersEl.innerHTML = all.map(c =>
@@ -574,7 +917,7 @@ function render(active){
               <ul class="specs">
                 ${Object.entries(v.spec).map(([k,val])=>`<li><span>${k}</span><span>${val}</span></li>`).join('')}
               </ul>
-              ${isAdmin() ? `<div class="card-admin-controls">
+              ${isAdmin() && editMode ? `<div class="card-admin-controls">
                 <label><span class="hidden">Changer le statut</span>
                   <select data-cat="${cat.id}" data-ref="${v.ref}" class="status-select">
                     ${Object.entries(statusLabel).map(([key,label])=>`<option value="${key}"${key===v.status?' selected':''}>${label}</option>`).join('')}
@@ -709,31 +1052,57 @@ function renderAdmin(){
         </div>
       `).join('')).join('');
 
-  const userList = users.map(user => `
-      <div class="admin-card-row">
-        <div>
-          <strong>${user.name}</strong>
-          <div style="font-size:12px; color:var(--slate); margin-top:4px;">ID: ${user.id} — Dernière connexion: ${new Date(user.lastSeen).toLocaleString('fr-FR')}</div>
+  const totalVehicles = categories.reduce((sum, cat) => sum + cat.vehicles.length, 0);
+  const totalCategories = categories.length;
+  const totalUsers = users.length;
+  const totalAdmins = adminIds.length;
+  const profileLastSeen = auth.lastSeen ? new Date(auth.lastSeen).toLocaleString('fr-FR') : 'Non renseigné';
+  const serverDashboard = isAdmin() ? `
+    <div class="admin-section">
+      <h3>Vue serveur</h3>
+      <div class="admin-list">
+        <div class="admin-card-row">
+          <div><strong>Visites</strong><div>${stats.pageViews}</div></div>
+          <div><strong>Clics</strong><div>${stats.clicks}</div></div>
         </div>
-        <div class="actions">
-          <span style="color:${user.isAdmin ? '#c9a24b' : '#8b98ab'}; font-size:12px;">${user.isAdmin ? 'Admin' : 'Utilisateur'}</span>
-          ${isAdmin() ? `<button class="filter-btn button-secondary toggle-admin" data-id="${user.id}">${user.isAdmin ? 'Retirer admin' : 'Rendre admin'}</button>` : ''}
+        <div class="admin-card-row">
+          <div><strong>Clics filtres</strong><div>${stats.filterClicks}</div></div>
+          <div><strong>Clics expertise</strong><div>${stats.ctaClicks}</div></div>
+        </div>
+        <div class="admin-card-row">
+          <div><strong>Catégories</strong><div>${totalCategories}</div></div>
+          <div><strong>Véhicules</strong><div>${totalVehicles}</div></div>
+        </div>
+        <div class="admin-card-row">
+          <div><strong>Utilisateurs</strong><div>${totalUsers}</div></div>
+          <div><strong>Admins</strong><div>${totalAdmins}</div></div>
         </div>
       </div>
-    `).join('');
+    </div>
+    <div class="admin-section">
+      <h3>Profil administrateur</h3>
+      <div class="admin-list">
+        <div class="admin-card-row">
+          <div><strong>${nameLabel}</strong><div>${auth.discordId ? `ID: ${auth.discordId}` : 'Local admin'}</div></div>
+          <div><strong>Rôle</strong><div>${isAdmin() ? 'Administrateur' : 'Utilisateur'}</div></div>
+        </div>
+        <div class="admin-card-row">
+          <div><strong>Dernière connexion</strong><div>${profileLastSeen}</div></div>
+          <div><strong>Serveur</strong><div>Montclair Connect</div></div>
+        </div>
+      </div>
+    </div>
+  ` : '';
 
   adminContentEl.innerHTML = `
     <p class="note"><strong>${nameLabel}</strong><br>${adminMessage}</p>
     <div class="actions"><button id="logout-button" class="button-secondary">Se déconnecter</button></div>
     ${statusControl}
+    ${serverDashboard}
     <div class="admin-section">
       <h3>Véhicules enregistrés</h3>
       <div class="admin-list">${vehicleList}</div>
     </div>
-    ${isAdmin() ? `<div class="admin-section">
-      <h3>Utilisateurs Discord connectés</h3>
-      <div class="admin-list">${userList}</div>
-    </div>` : ''}
   `;
 
   document.getElementById('logout-button').addEventListener('click', () => {
@@ -785,7 +1154,7 @@ function handlePasswordLogin(){
   const login = document.getElementById('login-user').value.trim();
   const pass = document.getElementById('login-pass').value;
   if(login === LOCAL_ADMIN.username && pass === LOCAL_ADMIN.password){
-    auth = { name:LOCAL_ADMIN.name, isAdmin:true };
+    auth = { name:LOCAL_ADMIN.name, isAdmin:true, lastSeen: new Date().toISOString() };
     saveAuth();
     updateAccountLink();
     renderAdmin();
@@ -948,6 +1317,8 @@ if(persisted){
 handleDiscordRedirect().finally(()=>{
   updateAccountLink();
   render('toutes');
+  updateToolbar();
+  setupToolbarListeners();
 });
 </script>
 
