@@ -171,6 +171,15 @@
     background:rgba(255,255,255,0.03);
   }
   .modal .photo-preview img{max-width:100%; max-height:160px; object-fit:contain; border-radius:4px;}
+  .filter-item{display:flex; align-items:center; gap:6px;}
+  .delete-filter{width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; font-size:14px; padding:0;}
+  #add-category-filter{min-width:170px;}
+  .card-body form .field{margin-bottom:1rem;}
+  .card-body form input,
+  .card-body form textarea{width:100%; font:inherit; color:var(--ivory); background:transparent; border:1px solid rgba(139,152,171,0.35); border-radius:4px; padding:0.85rem 1rem;}
+  .card-body form textarea{resize:vertical;}
+  .card-body form label{display:block; font-size:12px; color:var(--slate); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.08em;}
+  .card-body form .actions{display:flex; justify-content:flex-end;}
   .filter-btn{
     font-family:'IBM Plex Mono', monospace;
     font-size:12px; letter-spacing:0.05em;
@@ -366,8 +375,8 @@
   </div>
   <nav>
     <a href="#catalogue">Catalogue</a>
-    <a href="#" onclick="return false;">Expertise</a>
-    <a href="#" onclick="return false;">Contact</a>
+    <a href="#expertise">Expertise</a>
+    <a href="#contact">Contact</a>
     <a href="#" id="account-link">Mon compte</a>
   </nav>
 </header>
@@ -376,6 +385,37 @@
   <div class="eyebrow">Dossier catalogue — Édition en cours</div>
   <h1>Chaque véhicule a <em>un dossier.</em></h1>
   <p>Théo Montclair sélectionne, importe et négocie chaque véhicule avec la même discrétion qu'une transaction d'affaires. Le catalogue ci-dessous est classé par catégorie — consultez, comparez, puis prenez contact pour une expertise personnalisée.</p>
+</section>
+
+<section class="section" id="expertise">
+  <div class="section-head">
+    <span class="section-num">Section 02</span>
+    <h2>Expertise</h2>
+    <span class="section-count">Conseils, sourcing, estimation</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-cat">Analyse sur mesure</div>
+        <h3>Audit de dossier</h3>
+        <p>Je vérifie l’historique, les options et la valeur du véhicule pour proposer une estimation fiable et discrète.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="card-cat">Recherche premium</div>
+        <h3>Accompagnement sourcing</h3>
+        <p>Je trouve des véhicules rares ou spécifiques, j’estime le marché et je sécurise la transaction pour vous.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <div class="card-cat">Logistique</div>
+        <h3>Service export et suivi</h3>
+        <p>Organisation du transport, du dédouanement et du suivi post-achat pour un dossier complet clé en main.</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <div class="toolbar">
@@ -447,6 +487,37 @@
 <div class="filters" id="filters"></div>
 
 <main id="catalogue"></main>
+
+<section class="section" id="contact">
+  <div class="section-head">
+    <span class="section-num">Section 09</span>
+    <h2>Contact</h2>
+    <span class="section-count">Envoyez une demande d’expertise ou de véhicule</span>
+  </div>
+  <div class="grid">
+    <div class="card">
+      <div class="card-body">
+        <div class="card-cat">Envoyer une demande</div>
+        <h3>Contact Discord</h3>
+        <p>Remplissez le formulaire et copiez le message. Collez-le ensuite dans votre conversation Discord avec <strong>Paul Montclair</strong> si aucun webhook Discord n’est configuré.</p>
+        <p>Si vous configurez un webhook Discord, les demandes pourront être envoyées directement.</p>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-body">
+        <form id="contact-form">
+          <div class="field"><label for="contact-name">Nom</label><input id="contact-name" type="text" placeholder="Votre nom"></div>
+          <div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" placeholder="Votre email"></div>
+          <div class="field"><label for="contact-object">Objet</label><input id="contact-object" type="text" placeholder="Demande d’expertise, véhicule, etc."></div>
+          <div class="field"><label for="contact-message">Message</label><textarea id="contact-message" rows="5" placeholder="Décrivez votre demande"></textarea></div>
+          <div class="actions">
+            <button id="contact-submit" class="button-primary">Envoyer la demande</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 
 <footer>
   <div>
@@ -542,6 +613,7 @@ const icons = {
 const DISCORD_CLIENT_ID = '1522619149094879253';
 const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
 const DISCORD_SCOPES = 'identify';
+const DISCORD_WEBHOOK_URL = ''; // Ajoutez votre webhook Discord ici pour recevoir les demandes de contact
 const ADMIN_DISCORD_IDS = ['401736618420994048'];
 const LOCAL_ADMIN = { username:'montclair', password:'montclair', name:'Théo Montclair' };
 const STORAGE_VEHICLES = 'mtc-vehicles-data';
@@ -883,6 +955,40 @@ function importDataFile(event){
   reader.readAsText(file);
 }
 
+function handleContactSubmit(event){
+  event.preventDefault();
+  const name = document.getElementById('contact-name').value.trim();
+  const email = document.getElementById('contact-email').value.trim();
+  const object = document.getElementById('contact-object').value.trim();
+  const message = document.getElementById('contact-message').value.trim();
+  if(!name || !message){
+    alert('Merci de renseigner votre nom et un message.');
+    return;
+  }
+  const content = `Nouvelle demande de contact:\n**Nom:** ${name}\n**Email:** ${email || 'Non fourni'}\n**Objet:** ${object || 'Contact'}\n**Message:** ${message}`;
+  if(DISCORD_WEBHOOK_URL){
+    fetch(DISCORD_WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content })
+    }).then(response => {
+      if(response.ok){
+        alert('Message envoyé sur Discord.');
+        document.getElementById('contact-form').reset();
+      } else {
+        alert('Erreur lors de l’envoi du message.');
+      }
+    }).catch(() => alert('Erreur lors de l’envoi du message.'));
+  } else {
+    navigator.clipboard.writeText(content).then(() => {
+      alert('Message composé et copié. Collez-le dans Discord pour l’envoyer.');
+      document.getElementById('contact-form').reset();
+    }).catch(() => {
+      alert('Impossible de copier le message. Copiez-le manuellement depuis le formulaire.');
+    });
+  }
+}
+
 function handleToggleEdit(){
   if(!isAdmin()){
     renderAdmin();
@@ -923,6 +1029,10 @@ function setupToolbarListeners(){
   document.getElementById('modal-cancel').addEventListener('click', event => { event.preventDefault(); closeVehicleModal(); });
   document.getElementById('modal-save').addEventListener('click', saveModalVehicle);
   document.getElementById('f-photo').addEventListener('change', handleModalPhotoSelected);
+  const contactForm = document.getElementById('contact-form');
+  if(contactForm){
+    contactForm.addEventListener('submit', handleContactSubmit);
+  }
 }
 
 function renderFilters(active){
@@ -994,6 +1104,11 @@ function render(active){
     </div>
   `).join('');
   if(isAdmin()){
+    catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
+      button.addEventListener('click', event=>{
+        openVehicleModal(event.target.dataset.cat, event.target.dataset.ref);
+      });
+    });
     catalogueEl.querySelectorAll('.status-select').forEach(select=>{
       select.addEventListener('change', event=>{
         updateVehicleStatus(event.target.dataset.cat, event.target.dataset.ref, event.target.value);
@@ -1235,6 +1350,22 @@ function removeCategory(catId){
   categories.splice(index, 1);
   if(activeFilter === catId) activeFilter = 'toutes';
   if(selectedCategory === catId) selectedCategory = categories[0]?.id || '';
+  saveStorageData();
+  render(activeFilter);
+  renderAdmin();
+}
+
+function createCategoryFromPrompt(label){
+  const sanitized = label.trim();
+  if(!sanitized) return;
+  const id = sanitized.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `gamme-${Date.now()}`;
+  if(categories.some(c=>c.id===id)){
+    alert('Cette gamme existe déjà.');
+    return;
+  }
+  const num = (`0${categories.length + 1}`).slice(-2);
+  categories.push({ id, label: sanitized, num, vehicles: [] });
+  selectedCategory = id;
   saveStorageData();
   render(activeFilter);
   renderAdmin();
