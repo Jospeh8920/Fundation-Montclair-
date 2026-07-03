@@ -22,31 +22,19 @@
     --status-vendu:#8a5555;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
-  body{
-    background:var(--navy-deep);
-    color:var(--ivory);
-    font-family:'Inter', sans-serif;
-    line-height:1.6;
-  }
+  body{background:var(--navy-deep); color:var(--ivory); font-family:'Inter', sans-serif; line-height:1.6;}
   a{color:inherit;}
+  button{font-family:inherit; cursor:pointer;}
 
-  /* ---------- HEADER ---------- */
   header{
-    padding:2.5rem 6vw 2rem;
-    border-bottom:1px solid var(--line);
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-end;
-    flex-wrap:wrap;
-    gap:1rem;
+    padding:2.5rem 6vw 2rem; border-bottom:1px solid var(--line);
+    display:flex; justify-content:space-between; align-items:flex-end; flex-wrap:wrap; gap:1rem;
   }
   .brand-mark{display:flex; align-items:center; gap:14px;}
   .brand-mark .seal{
-    width:46px; height:46px; border-radius:50%;
-    border:1px solid var(--gold);
+    width:46px; height:46px; border-radius:50%; border:1px solid var(--gold);
     display:flex; align-items:center; justify-content:center;
-    font-family:'Fraunces', serif; font-size:20px; color:var(--gold);
-    flex-shrink:0;
+    font-family:'Fraunces', serif; font-size:20px; color:var(--gold); flex-shrink:0;
   }
   .brand-name{font-family:'Fraunces', serif; font-size:26px; letter-spacing:0.02em; color:var(--ivory);}
   .brand-sub{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.18em; color:var(--gold); text-transform:uppercase; margin-top:2px;}
@@ -54,210 +42,88 @@
   nav a{text-decoration:none; border-bottom:1px solid transparent; padding-bottom:3px; transition:border-color .2s, color .2s;}
   nav a:hover{color:var(--gold-soft); border-color:var(--gold);}
 
-  /* ---------- HERO ---------- */
-  .hero{
-    padding:5rem 6vw 4rem;
-    border-bottom:1px solid var(--line);
-    max-width:900px;
-  }
-  .hero .eyebrow{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:11px; letter-spacing:0.2em; text-transform:uppercase;
-    color:var(--gold); margin-bottom:1.2rem;
-  }
-  .hero h1{
-    font-family:'Fraunces', serif;
-    font-weight:500;
-    font-size:clamp(2.2rem, 4.5vw, 3.4rem);
-    line-height:1.15;
-    color:var(--ivory);
-    max-width:14ch;
-  }
+  .hero{padding:4rem 6vw 2.5rem; border-bottom:1px solid var(--line); max-width:900px;}
+  .hero .eyebrow{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:1.2rem;}
+  .hero h1{font-family:'Fraunces', serif; font-weight:500; font-size:clamp(2rem, 4vw, 3rem); line-height:1.15; color:var(--ivory); max-width:16ch;}
   .hero h1 em{color:var(--gold); font-style:normal;}
-  .hero p{
-    margin-top:1.5rem; color:var(--slate); font-size:16px; max-width:52ch;
-  }
+  .hero p{margin-top:1.2rem; color:var(--slate); font-size:15px; max-width:56ch;}
 
-  /* ---------- FILTER TABS ---------- */
-  .filters{
-    position:sticky; top:0; z-index:10;
-    background:var(--navy-deep);
-    padding:1.4rem 6vw;
-    border-bottom:1px solid var(--line);
-    display:flex; gap:10px; flex-wrap:wrap;
-  }
-  .filter-item{display:flex; align-items:center; gap:6px;}
-  .delete-filter{
-    width:34px;
-    height:34px;
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-    border-radius:4px;
-    font-size:14px;
-    padding:0;
-  }
+  /* ---------- TOOLBAR ---------- */
   .toolbar{
-    display:flex;
-    flex-wrap:wrap;
-    gap:10px;
-    align-items:center;
-    background:var(--navy-deep);
-    padding:1rem 6vw;
-    border-bottom:1px solid var(--line);
+    padding:1rem 6vw; border-bottom:1px solid var(--line);
+    display:flex; gap:10px; flex-wrap:wrap; align-items:center; background:var(--navy);
   }
   .tb-btn{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    letter-spacing:0.08em;
-    text-transform:uppercase;
-    padding:0.75rem 1rem;
-    border:1px solid rgba(139,152,171,0.35);
-    border-radius:4px;
-    background:transparent;
-    color:var(--ivory);
-    cursor:pointer;
-    transition:all .2s;
-  }
-  .tb-select{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px;
-    color:var(--ivory);
-    background:transparent;
-    border:1px solid rgba(139,152,171,0.35);
-    border-radius:4px;
-    padding:0.75rem 0.85rem;
-    min-width:180px;
-    appearance:none;
-    cursor:pointer;
+    font-family:'IBM Plex Mono', monospace; font-size:11.5px; letter-spacing:0.05em; text-transform:uppercase;
+    background:transparent; border:1px solid rgba(139,152,171,0.35); color:var(--slate);
+    padding:8px 14px; border-radius:2px; transition:all .2s;
   }
   .tb-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
-  .tb-btn.primary{background:var(--gold); color:var(--navy-deep); border-color:var(--gold);}
-  .tb-sep{width:1px; height:24px; background:rgba(139,152,171,0.25);}
-  .tb-note{color:var(--slate); font-size:13px; margin-left:auto;}
-  .modal-overlay{
-    position:fixed;
-    inset:0;
-    background:rgba(11,27,46,0.92);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:1.5rem;
-    z-index:25;
+  .tb-btn.primary{background:var(--gold); border-color:var(--gold); color:var(--navy-deep); font-weight:500;}
+  .tb-btn.primary:hover{background:var(--gold-soft);}
+  .tb-btn.on{background:rgba(201,162,75,0.15); border-color:var(--gold); color:var(--gold-soft);}
+  .tb-sep{width:1px; height:20px; background:var(--line); margin:0 4px;}
+  .tb-note{font-family:'IBM Plex Mono', monospace; font-size:11px; color:var(--slate); margin-left:auto;}
+  #import-input{display:none;}
+  #auth-area{display:flex; align-items:center; gap:10px; font-family:'IBM Plex Mono', monospace; font-size:11.5px;}
+  .auth-pill{display:flex; align-items:center; gap:8px; color:var(--ivory);}
+  .auth-avatar{width:22px; height:22px; border-radius:50%; border:1px solid var(--gold);}
+  .auth-badge{font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase; padding:2px 8px; border-radius:2px;}
+  .auth-badge.admin{background:rgba(201,162,75,0.18); color:var(--gold-soft); border:1px solid var(--gold);}
+  .auth-badge.visitor{background:rgba(139,152,171,0.12); color:var(--slate); border:1px solid rgba(139,152,171,0.3);}
+
+  /* ---------- FILTERS ---------- */
+  .filters{
+    position:sticky; top:0; z-index:10; background:var(--navy-deep);
+    padding:1.4rem 6vw; border-bottom:1px solid var(--line);
+    display:flex; gap:10px; flex-wrap:wrap;
   }
-  .modal{
-    width:min(100%,520px);
-    background:var(--navy-panel);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:1.5rem;
-    box-shadow:0 24px 48px rgba(0,0,0,0.25);
-  }
-  .modal h3{font-family:'Fraunces', serif; font-size:1.4rem; color:var(--ivory); margin-bottom:1rem;}
-  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem;}
-  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:1rem;}
-  .modal .field{margin-bottom:1rem;}
-  .modal input,.modal select{width:100%; font:inherit; color:var(--ivory); background:transparent; border:1px solid rgba(139,152,171,0.35); border-radius:4px; padding:0.85rem 1rem;}
-  .modal .photo-preview{
-    min-height:120px;
-    border:1px dashed rgba(255,255,255,0.18);
-    border-radius:6px;
-    padding:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--slate);
-    margin-bottom:0.8rem;
-    background:rgba(255,255,255,0.03);
-  }
-  .modal .photo-preview img{max-width:100%; max-height:160px; object-fit:contain; border-radius:4px;}
-  .filter-item{display:flex; align-items:center; gap:6px;}
-  .delete-filter{width:34px; height:34px; display:inline-flex; align-items:center; justify-content:center; border-radius:4px; font-size:14px; padding:0;}
-  #add-category-filter{min-width:170px;}
-  .card-body form .field{margin-bottom:1rem;}
-  .card-body form input,
-  .card-body form textarea{width:100%; font:inherit; color:var(--ivory); background:transparent; border:1px solid rgba(139,152,171,0.35); border-radius:4px; padding:0.85rem 1rem;}
-  .card-body form textarea{resize:vertical;}
-  .card-body form label{display:block; font-size:12px; color:var(--slate); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.08em;}
-  .card-body form .actions{display:flex; justify-content:flex-end;}
   .filter-btn{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px; letter-spacing:0.05em;
-    background:transparent;
-    border:1px solid rgba(139,152,171,0.35);
-    color:var(--slate);
-    padding:8px 16px;
-    border-radius:2px;
-    cursor:pointer;
-    transition:all .2s;
-    text-transform:uppercase;
+    font-family:'IBM Plex Mono', monospace; font-size:12px; letter-spacing:0.05em;
+    background:transparent; border:1px solid rgba(139,152,171,0.35); color:var(--slate);
+    padding:8px 16px; border-radius:2px; transition:all .2s; text-transform:uppercase;
   }
   .filter-btn:hover{border-color:var(--gold); color:var(--gold-soft);}
   .filter-btn.active{background:var(--gold); border-color:var(--gold); color:var(--navy-deep); font-weight:500;}
 
-  /* ---------- SECTIONS ---------- */
-  main{padding:3rem 6vw 5rem;}
+  main{padding:3rem 6vw 1rem;}
   .section{margin-bottom:4rem;}
-  .section-head{
-    display:flex; align-items:baseline; gap:16px;
-    margin-bottom:1.8rem;
-    border-bottom:1px solid var(--line);
-    padding-bottom:1rem;
-  }
-  .section-num{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:12px; color:var(--gold); letter-spacing:0.1em;
-  }
-  .section-head h2{
-    font-family:'Fraunces', serif; font-weight:500; font-size:1.6rem; color:var(--ivory);
-  }
-  .section-count{
-    font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate); margin-left:auto;
-  }
+  .section-head{display:flex; align-items:baseline; gap:16px; margin-bottom:1.8rem; border-bottom:1px solid var(--line); padding-bottom:1rem;}
+  .section-num{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--gold); letter-spacing:0.1em;}
+  .section-head h2{font-family:'Fraunces', serif; font-weight:500; font-size:1.6rem; color:var(--ivory);}
+  .section-count{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate); margin-left:auto;}
+  .section-empty{font-family:'IBM Plex Mono', monospace; font-size:12px; color:var(--slate); padding:1rem 0;}
 
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:22px;
-  }
+  .grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:22px;}
 
-  /* ---------- CARD ---------- */
   .card{
-    background:var(--navy-panel);
-    border:1px solid var(--line);
-    border-radius:4px;
-    overflow:hidden;
-    display:flex; flex-direction:column;
-    position:relative;
-    transition:border-color .2s, transform .2s;
+    background:var(--navy-panel); border:1px solid var(--line); border-radius:4px; overflow:hidden;
+    display:flex; flex-direction:column; position:relative; transition:border-color .2s, transform .2s;
   }
   .card:hover{border-color:var(--gold); transform:translateY(-2px);}
   .card-visual{
-    height:150px;
-    background:var(--navy);
-    display:flex; align-items:center; justify-content:center;
-    position:relative;
-    border-bottom:1px solid var(--line);
+    height:150px; background:var(--navy); display:flex; align-items:center; justify-content:center;
+    position:relative; border-bottom:1px solid var(--line); overflow:hidden;
   }
   .card-visual svg{width:78%; height:auto; opacity:0.92;}
   .card-visual img{width:100%; height:100%; object-fit:cover;}
-  .ref{
-    position:absolute; top:10px; left:12px;
-    font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--slate);
-    letter-spacing:0.06em;
-  }
+  .ref{position:absolute; top:10px; left:12px; font-family:'IBM Plex Mono', monospace; font-size:10px; color:var(--slate); letter-spacing:0.06em; z-index:2; text-shadow:0 1px 3px rgba(0,0,0,0.6);}
   .stamp{
-    position:absolute; top:12px; right:-32px;
-    transform:rotate(35deg);
-    font-family:'IBM Plex Mono', monospace;
-    font-size:10px; font-weight:500; letter-spacing:0.12em;
-    padding:3px 34px;
-    text-transform:uppercase;
-    border:1px solid currentColor;
+    position:absolute; top:12px; right:-32px; transform:rotate(35deg);
+    font-family:'IBM Plex Mono', monospace; font-size:10px; font-weight:500; letter-spacing:0.12em;
+    padding:3px 34px; text-transform:uppercase; border:1px solid currentColor; z-index:2;
   }
-  .stamp.dispo{color:var(--status-dispo); background:rgba(127,174,122,0.08);}
-  .stamp.reserve{color:var(--status-reserve); background:rgba(201,162,75,0.08);}
-  .stamp.vendu{color:var(--status-vendu); background:rgba(138,85,85,0.08);}
+  .stamp.dispo{color:var(--status-dispo); background:rgba(127,174,122,0.14);}
+  .stamp.reserve{color:var(--status-reserve); background:rgba(201,162,75,0.14);}
+  .stamp.vendu{color:var(--status-vendu); background:rgba(138,85,85,0.14);}
+
+  .admin-controls{position:absolute; bottom:8px; left:8px; display:flex; gap:6px; z-index:2;}
+  .admin-controls button{
+    width:26px; height:26px; border-radius:2px; border:1px solid var(--line); background:rgba(11,27,46,0.85);
+    color:var(--ivory); font-size:12px; display:flex; align-items:center; justify-content:center;
+  }
+  .admin-controls button:hover{border-color:var(--gold); color:var(--gold);}
+  .admin-controls button.del:hover{border-color:#c96b4b; color:#c96b4b;}
 
   .card-body{padding:18px 20px 20px; display:flex; flex-direction:column; gap:10px; flex:1;}
   .card-body h3{font-family:'Fraunces', serif; font-size:1.25rem; font-weight:500; color:var(--ivory);}
@@ -267,99 +133,67 @@
   .specs li{display:flex; justify-content:space-between; border-bottom:1px dotted rgba(139,152,171,0.18); padding-bottom:4px;}
   .specs li span:last-child{color:var(--ivory);}
 
-  .card-footer{
-    margin-top:auto; padding-top:14px; border-top:1px solid var(--line);
-    display:flex; justify-content:space-between; align-items:center;
-  }
+  .card-footer{margin-top:auto; padding-top:14px; border-top:1px solid var(--line); display:flex; justify-content:space-between; align-items:center;}
   .price{font-family:'Fraunces', serif; font-size:1.15rem; color:var(--gold-soft);}
-  .cta{
-    font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.04em;
-    color:var(--slate); text-decoration:none; border-bottom:1px solid var(--slate);
-    padding-bottom:2px; transition:color .2s, border-color .2s;
-  }
+  .cta{font-family:'IBM Plex Mono', monospace; font-size:11px; letter-spacing:0.04em; color:var(--slate); text-decoration:none; border-bottom:1px solid var(--slate); padding-bottom:2px; transition:color .2s, border-color .2s;}
   .cta:hover{color:var(--gold); border-color:var(--gold);}
 
-  /* ---------- FOOTER ---------- */
-  footer{
-    padding:3rem 6vw; border-top:1px solid var(--line);
-    display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem;
-    color:var(--slate); font-size:13px;
+  .add-card{
+    border:1px dashed rgba(201,162,75,0.4); border-radius:4px; min-height:280px;
+    display:flex; align-items:center; justify-content:center; flex-direction:column; gap:8px;
+    color:var(--slate); background:transparent; transition:all .2s;
   }
+  .add-card:hover{border-color:var(--gold); color:var(--gold-soft);}
+  .add-card .plus{font-size:28px; font-family:'Fraunces', serif; color:var(--gold);}
+
+  /* ---------- ORGANIGRAMME ---------- */
+  .org-wrap{
+    background:var(--navy); border:1px solid var(--line); border-radius:8px;
+    padding:2.5rem clamp(1rem, 4vw, 3rem); overflow-x:auto;
+  }
+  .org-svg{display:block; margin:0 auto; width:100%; max-width:960px; height:auto;}
+  .org-node{
+    background:var(--navy-panel); border:1px solid var(--gold); border-radius:6px;
+    padding:12px 16px; height:100%; display:flex; flex-direction:column; justify-content:center;
+    text-align:center; box-shadow:0 8px 20px rgba(0,0,0,0.25);
+  }
+  .org-node.secondary{border-color:rgba(201,162,75,0.55);}
+  .org-name{font-family:'Fraunces', serif; font-size:16px; color:var(--ivory); line-height:1.2;}
+  .org-role{font-family:'IBM Plex Mono', monospace; font-size:9.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--gold); margin-top:4px;}
+  .org-desc{font-size:11px; color:var(--slate); margin-top:5px; line-height:1.35;}
+
+  /* ---------- FOOTER ---------- */
+  footer{padding:3rem 6vw; border-top:1px solid var(--line); display:flex; justify-content:space-between; flex-wrap:wrap; gap:1.5rem; color:var(--slate); font-size:13px;}
   footer .fmark{font-family:'Fraunces', serif; color:var(--ivory); font-size:15px; margin-bottom:6px;}
 
-  .hidden{display:none !important;}
-  .admin-panel{
-    position:fixed; inset:0; background:rgba(11,27,46,0.95); padding:1.5rem; z-index:20; overflow:hidden;
+  /* ---------- MODAL ---------- */
+  .modal-overlay{
+    display:none; position:fixed; inset:0; background:rgba(6,14,24,0.72); z-index:100;
+    align-items:flex-start; justify-content:center; padding:5vh 20px; overflow-y:auto;
   }
-  .admin-card{
-    position:absolute;
-    top:1.5rem;
-    left:50%;
-    transform:translateX(-50%);
-    width:min(100%,720px);
-    height:calc(100vh - 3rem);
-    max-height:calc(100vh - 3rem);
-    overflow-y:auto;
-    overflow-x:hidden;
-    background:var(--navy-panel);
-    border:1px solid var(--line);
-    border-radius:8px;
-    padding:1.5rem;
-    box-shadow:0 18px 45px rgba(0,0,0,0.25);
-    cursor:grab;
+  .modal-overlay.open{display:flex;}
+  .modal{background:var(--navy-panel); border:1px solid var(--line); border-radius:6px; width:100%; max-width:520px; padding:2rem; margin-bottom:5vh;}
+  .modal h3{font-family:'Fraunces', serif; font-size:1.4rem; margin-bottom:1.5rem; color:var(--ivory);}
+  .field{margin-bottom:14px;}
+  .field label{display:block; font-family:'IBM Plex Mono', monospace; font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--gold); margin-bottom:6px;}
+  .field input[type=text], .field input[type=number], .field select{
+    width:100%; background:var(--navy); border:1px solid var(--line); color:var(--ivory);
+    padding:9px 12px; border-radius:2px; font-family:'Inter', sans-serif; font-size:14px;
   }
-  .admin-card.dragging{cursor:grabbing;}
-  .admin-toolbar{display:flex; justify-content:space-between; align-items:center; gap:1rem; margin-bottom:1rem; cursor:grab;}
-  .admin-toolbar h2{font-family:'Fraunces', serif; font-size:1.35rem; color:var(--ivory);}
-  .admin-panel button,
-  .admin-panel select,
-  .admin-panel input{
-    font:inherit; color:var(--ivory); background:transparent; border:1px solid rgba(139,152,171,0.35); border-radius:4px; padding:0.85rem 1rem;
-  }
-  .admin-panel input{width:100%;}
-  .admin-panel label{display:block; font-size:12px; color:var(--slate); margin-bottom:0.35rem; text-transform:uppercase; letter-spacing:0.08em;}
-  .admin-panel .field{margin-bottom:1rem;}
-  .admin-panel .actions{display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
-  .admin-panel .button-primary{background:var(--gold); color:var(--navy-deep); border-color:var(--gold); cursor:pointer;}
-  .admin-panel .button-secondary{background:transparent; color:var(--slate); border-color:rgba(139,152,171,0.35); cursor:pointer;}
-  .admin-panel .note{font-size:12px; color:var(--slate); margin-top:0.5rem;}
-  .admin-panel .admin-section{margin-top:1.5rem; border-top:1px solid var(--line); padding-top:1.5rem;}
-  .admin-panel .admin-row{display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1rem;}
-  .admin-panel .admin-row.full{grid-template-columns:1fr;}
-  .admin-panel .admin-list{display:grid; gap:0.85rem; margin-top:1rem;}
-  .admin-panel .admin-card-row{background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.08); border-radius:4px; padding:0.9rem; display:flex; flex-wrap:wrap; gap:0.8rem; align-items:center; justify-content:space-between;}
-  .admin-panel .admin-card-row span{font-size:13px; color:var(--ivory);}
-  .admin-panel .admin-card-row button{padding:0.65rem 0.85rem;}
-  .admin-panel .card-admin-controls{margin-top:0.9rem; display:flex; gap:0.75rem; flex-wrap:wrap; align-items:center;}
-  .admin-panel .card-admin-controls select{min-width:146px;}
+  .field input:focus, .field select:focus{outline:none; border-color:var(--gold);}
+  .field-row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
   .photo-preview{
-    min-height:120px;
-    border:1px dashed rgba(255,255,255,0.18);
-    border-radius:6px;
-    padding:10px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    color:var(--slate);
-    margin-bottom:0.8rem;
-    background:rgba(255,255,255,0.03);
+    width:100%; height:120px; background:var(--navy); border:1px solid var(--line); border-radius:2px;
+    display:flex; align-items:center; justify-content:center; overflow:hidden; margin-bottom:10px; color:var(--slate); font-size:12px;
   }
-  .photo-preview img{
-    max-width:100%;
-    max-height:160px;
-    object-fit:contain;
-    border-radius:4px;
-  }  @media (max-width:760px){
-    .toolbar{flex-direction:column; align-items:flex-start;}
-    .field-row{grid-template-columns:1fr;}
-  }  @media (max-width:680px){
-    .admin-panel .admin-row{grid-template-columns:1fr;}
-    .admin-panel .admin-card-row{flex-direction:column; align-items:flex-start;}
-  }
+  .photo-preview img{width:100%; height:100%; object-fit:cover;}
+  .field input[type=file]{font-size:12px; color:var(--slate);}
+  .modal-actions{display:flex; justify-content:flex-end; gap:10px; margin-top:1.5rem;}
 
   @media (max-width:640px){
     header{flex-direction:column; align-items:flex-start;}
     .filters{overflow-x:auto; flex-wrap:nowrap;}
+    .field-row{grid-template-columns:1fr;}
   }
 </style>
 </head>
@@ -375,67 +209,103 @@
   </div>
   <nav>
     <a href="#catalogue">Catalogue</a>
-    <a href="#expertise">Expertise</a>
-    <a href="#contact">Contact</a>
-    <a href="#" id="account-link">Mon compte</a>
+    <a href="#organigramme">Équipe</a>
+    <a href="#" onclick="return false;">Contact</a>
   </nav>
 </header>
 
 <section class="hero">
   <div class="eyebrow">Dossier catalogue — Édition en cours</div>
   <h1>Chaque véhicule a <em>un dossier.</em></h1>
-  <p>Théo Montclair sélectionne, importe et négocie chaque véhicule avec la même discrétion qu'une transaction d'affaires. Le catalogue ci-dessous est classé par catégorie — consultez, comparez, puis prenez contact pour une expertise personnalisée.</p>
-</section>
-
-<section class="section" id="expertise">
-  <div class="section-head">
-    <span class="section-num">Section 02</span>
-    <h2>Expertise</h2>
-    <span class="section-count">Conseils, sourcing, estimation</span>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-cat">Analyse sur mesure</div>
-        <h3>Audit de dossier</h3>
-        <p>Je vérifie l’historique, les options et la valeur du véhicule pour proposer une estimation fiable et discrète.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <div class="card-cat">Recherche premium</div>
-        <h3>Accompagnement sourcing</h3>
-        <p>Je trouve des véhicules rares ou spécifiques, j’estime le marché et je sécurise la transaction pour vous.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <div class="card-cat">Logistique</div>
-        <h3>Service export et suivi</h3>
-        <p>Organisation du transport, du dédouanement et du suivi post-achat pour un dossier complet clé en main.</p>
-      </div>
-    </div>
-  </div>
-  <div class="section-head" style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--line);">
-    <span class="section-num">Section 03</span>
-    <h2>Organigramme</h2>
-    <span class="section-count">Rôles et responsabilités</span>
-  </div>
-  <div id="expertise-chart" class="expertise-grid"></div>
+  <p>Théo Montclair sélectionne, importe et négocie chaque véhicule avec la même discrétion qu'une transaction d'affaires. Consultez le catalogue par catégorie ci-dessous.</p>
 </section>
 
 <div class="toolbar">
-  <button class="tb-btn" id="toggle-edit">Mode édition</button>
-  <button class="tb-btn hidden" id="add-vehicle-btn">Ajouter un véhicule</button>
-  <select class="tb-select" id="filter-select" aria-label="Filtrer par catégorie"></select>
+  <span id="auth-area"></span>
   <div class="tb-sep"></div>
+  <button class="tb-btn" id="toggle-edit" style="display:none;">Mode édition</button>
   <button class="tb-btn" id="export-btn">Exporter les données</button>
-  <button class="tb-btn" id="import-btn">Importer les données</button>
-  <input type="file" id="import-input" accept="application/json" class="hidden">
+  <button class="tb-btn" id="import-btn" style="display:none;">Importer les données</button>
+  <input type="file" id="import-input" accept="application/json">
   <span class="tb-note" id="tb-note">Mode consultation</span>
 </div>
 
-<div class="modal-overlay hidden" id="modal-overlay">
+<div class="filters" id="filters"></div>
+
+<main id="catalogue"></main>
+
+<section class="section" id="organigramme" style="padding:0 6vw 4rem;">
+  <div class="section-head">
+    <span class="section-num">Section 07</span>
+    <h2>Organigramme</h2>
+    <span class="section-count">Rôles et responsabilités</span>
+  </div>
+  <div class="org-wrap">
+    <svg class="org-svg" viewBox="0 0 960 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- connecteurs -->
+      <g stroke="var(--gold)" stroke-width="1.5" fill="none" opacity="0.6">
+        <line x1="480" y1="90" x2="480" y2="130"/>
+        <line x1="480" y1="220" x2="480" y2="250"/>
+        <line x1="160" y1="250" x2="800" y2="250"/>
+        <line x1="160" y1="250" x2="160" y2="280"/>
+        <line x1="480" y1="250" x2="480" y2="280"/>
+        <line x1="800" y1="250" x2="800" y2="280"/>
+      </g>
+      <!-- Théo -->
+      <foreignObject x="330" y="10" width="300" height="80">
+        <div class="org-node" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="org-name">Théo Montclair</div>
+          <div class="org-role">Gérant — Fondateur</div>
+        </div>
+      </foreignObject>
+      <!-- Paul -->
+      <foreignObject x="330" y="130" width="300" height="90">
+        <div class="org-node" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="org-name">Paul Montclair</div>
+          <div class="org-role">Directeur des opérations</div>
+          <div class="org-desc">Coordination générale, validation des ventes</div>
+        </div>
+      </foreignObject>
+      <!-- Commercial -->
+      <foreignObject x="30" y="280" width="260" height="110">
+        <div class="org-node secondary" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="org-name">Pôle Commercial</div>
+          <div class="org-role">Vente &amp; négociation</div>
+          <div class="org-desc">Accueil client, catalogue, suivi des dossiers de vente</div>
+        </div>
+      </foreignObject>
+      <!-- Logistique -->
+      <foreignObject x="350" y="280" width="260" height="110">
+        <div class="org-node secondary" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="org-name">Pôle Logistique</div>
+          <div class="org-role">Import · Export · Transport</div>
+          <div class="org-desc">Convois, approvisionnement, gestion de l'entrepôt</div>
+        </div>
+      </foreignObject>
+      <!-- Expertise -->
+      <foreignObject x="670" y="280" width="260" height="110">
+        <div class="org-node secondary" xmlns="http://www.w3.org/1999/xhtml">
+          <div class="org-name">Pôle Expertise</div>
+          <div class="org-role">Contrôle qualité</div>
+          <div class="org-desc">Inspection et estimation des véhicules avant mise en catalogue</div>
+        </div>
+      </foreignObject>
+    </svg>
+  </div>
+</section>
+
+<footer>
+  <div>
+    <div class="fmark">Montclair Import-Export</div>
+    <div>Direction — Théo Montclair · Opérations — Paul Montclair</div>
+  </div>
+  <div>
+    Demandes et expertises sur rendez-vous.<br>
+    Contact via le salon <strong>#commandes-clients</strong> du serveur Discord.
+  </div>
+</footer>
+
+<div class="modal-overlay" id="modal-overlay">
   <div class="modal">
     <h3 id="modal-title">Ajouter un véhicule</h3>
     <div class="photo-preview" id="photo-preview">Aucune photo</div>
@@ -480,135 +350,17 @@
   </div>
 </div>
 
-<div id="admin-panel" class="admin-panel hidden" aria-hidden="true">
-  <div class="admin-card" role="dialog" aria-modal="true" aria-labelledby="admin-title">
-    <div class="admin-toolbar">
-      <h2 id="admin-title">Accès gestion</h2>
-      <button id="admin-close" class="filter-btn button-secondary">Fermer</button>
-    </div>
-    <div id="admin-content"></div>
-  </div>
-</div>
-
-<div class="filters" id="filters"></div>
-
-<main id="catalogue"></main>
-
-<section class="section" id="contact">
-  <div class="section-head">
-    <span class="section-num">Section 09</span>
-    <h2>Contact</h2>
-    <span class="section-count">Envoyez une demande d’expertise ou de véhicule</span>
-  </div>
-  <div class="grid">
-    <div class="card">
-      <div class="card-body">
-        <div class="card-cat">Envoyer une demande</div>
-        <h3>Contact Discord</h3>
-        <p>Remplissez le formulaire et copiez le message. Collez-le ensuite dans votre conversation Discord avec <strong>Paul Montclair</strong> si aucun webhook Discord n’est configuré.</p>
-        <p>Si vous configurez un webhook Discord, les demandes pourront être envoyées directement.</p>
-      </div>
-    </div>
-    <div class="card">
-      <div class="card-body">
-        <form id="contact-form">
-          <div class="field"><label for="contact-name">Nom</label><input id="contact-name" type="text" placeholder="Votre nom"></div>
-          <div class="field"><label for="contact-email">Email</label><input id="contact-email" type="email" placeholder="Votre email"></div>
-          <div class="field"><label for="contact-object">Objet</label><input id="contact-object" type="text" placeholder="Demande d’expertise, véhicule, etc."></div>
-          <div class="field"><label for="contact-message">Message</label><textarea id="contact-message" rows="5" placeholder="Décrivez votre demande"></textarea></div>
-          <div class="actions">
-            <button id="contact-submit" class="button-primary">Envoyer la demande</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</section>
-
-<footer>
-  <div>
-    <div class="fmark">Montclair Import-Export</div>
-    <div>Direction — Théo Montclair · Opérations — Paul Montclair</div>
-  </div>
-  <div>
-    Demandes et expertises sur rendez-vous.<br>
-    Contact via le salon <strong>#commandes-clients</strong> du serveur Discord.
-  </div>
-</footer>
-
 <script>
-const categories = [
-  {
-    id: 'citadines',
-    label: 'Citadines',
-    num: '01',
-    icon: 'compact',
-    vehicles: [
-      { ref:'MTC-0112', name:'Blista', spec:{Moteur:'4 cyl. compact', Transmission:'Manuelle', Places:'4'}, price:'18 500 $', status:'dispo', icon:'compact' },
-      { ref:'MTC-0113', name:'Panto', spec:{Moteur:'Électrique urbain', Transmission:'Automatique', Places:'2'}, price:'14 200 $', status:'dispo', icon:'compact' },
-      { ref:'MTC-0114', name:'Issi', spec:{Moteur:'4 cyl. compact', Transmission:'Manuelle', Places:'4'}, price:'16 800 $', status:'reserve', icon:'compact' },
-    ]
-  },
-  {
-    id: 'berlines',
-    label:'Berlines',
-    num:'02',
-    vehicles:[
-      { ref:'MTC-0221', name:'Sultan', spec:{Moteur:'Turbo 4 cyl.', Transmission:'Automatique', Places:'5'}, price:'32 400 $', status:'dispo', icon:'sedan' },
-      { ref:'MTC-0222', name:'Asea', spec:{Moteur:'V6', Transmission:'Automatique', Places:'5'}, price:'27 900 $', status:'dispo', icon:'sedan' },
-      { ref:'MTC-0223', name:'Premier', spec:{Moteur:'6 cyl.', Transmission:'Automatique', Places:'5'}, price:'24 600 $', status:'vendu', icon:'sedan' },
-    ]
-  },
-  {
-    id: 'suv',
-    label:'SUV',
-    num:'03',
-    vehicles:[
-      { ref:'MTC-0331', name:'Baller', spec:{Moteur:'V8', Transmission:'Automatique', Places:'5'}, price:'58 900 $', status:'dispo', icon:'suv' },
-      { ref:'MTC-0332', name:'Cavalcade', spec:{Moteur:'V8', Transmission:'Automatique', Places:'7'}, price:'52 300 $', status:'reserve', icon:'suv' },
-      { ref:'MTC-0333', name:'Gresley', spec:{Moteur:'6 cyl. turbo', Transmission:'Automatique', Places:'5'}, price:'41 700 $', status:'dispo', icon:'suv' },
-    ]
-  },
-  {
-    id: 'sport',
-    label:'Sport & Muscle',
-    num:'04',
-    vehicles:[
-      { ref:'MTC-0441', name:'Vigero', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'4'}, price:'46 500 $', status:'dispo', icon:'muscle' },
-      { ref:'MTC-0442', name:'Dominator', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'2'}, price:'49 800 $', status:'dispo', icon:'muscle' },
-      { ref:'MTC-0443', name:'Gauntlet', spec:{Moteur:'V8 muscle', Transmission:'Manuelle', Places:'2'}, price:'44 100 $', status:'vendu', icon:'muscle' },
-    ]
-  },
-  {
-    id: 'utilitaires',
-    label:'Utilitaires',
-    num:'05',
-    vehicles:[
-      { ref:'MTC-0551', name:'Bobcat', spec:{Moteur:'4 cyl. diesel', Transmission:'Manuelle', Places:'2'}, price:'21 300 $', status:'dispo', icon:'van' },
-      { ref:'MTC-0552', name:'Speedo', spec:{Moteur:'V6', Transmission:'Automatique', Places:'3'}, price:'23 900 $', status:'dispo', icon:'van' },
-      { ref:'MTC-0553', name:'Burrito', spec:{Moteur:'V6', Transmission:'Automatique', Places:'2'}, price:'22 400 $', status:'reserve', icon:'van' },
-    ]
-  },
-  {
-    id: 'prestige',
-    label:'Prestige',
-    num:'06',
-    vehicles:[
-      { ref:'MTC-0661', name:'Windsor', spec:{Moteur:'V12', Transmission:'Automatique', Places:'4'}, price:'118 000 $', status:'dispo', icon:'luxury' },
-      { ref:'MTC-0662', name:'Osiris', spec:{Moteur:'V12', Transmission:'Automatique', Places:'2'}, price:'265 000 $', status:'reserve', icon:'luxury' },
-      { ref:'MTC-0663', name:'Zentorno', spec:{Moteur:'V10', Transmission:'Automatique', Places:'2'}, price:'298 000 $', status:'dispo', icon:'luxury' },
-    ]
-  },
+const CATEGORIES = [
+  {id:'citadines', label:'Citadines', num:'01', icon:'compact'},
+  {id:'berlines', label:'Berlines', num:'02', icon:'sedan'},
+  {id:'suv', label:'SUV', num:'03', icon:'suv'},
+  {id:'sport', label:'Sport & Muscle', num:'04', icon:'muscle'},
+  {id:'utilitaires', label:'Utilitaires', num:'05', icon:'van'},
+  {id:'prestige', label:'Prestige', num:'06', icon:'luxury'},
 ];
 
 const statusLabel = { dispo:'Disponible', reserve:'Réservé', vendu:'Vendu' };
-
-const expertiseNodes = [
-  { id:'leader', title:'Direction', role:'Théo Montclair', description:'Supervision des dossiers, sourcing stratégique et négociation.' },
-  { id:'sourcing', title:'Sourcing', role:'Recherche de véhicules', description:'Identification des meilleures offres et analyse marché.' },
-  { id:'logistique', title:'Logistique', role:'Transport & conformité', description:'Organisation du transport, du dédouanement et de la livraison.' },
-  { id:'expertise', title:'Expertise', role:'Contrôle qualité', description:'Inspection, estimation et validation des véhicules.' },
-];
 
 const icons = {
   compact: `<svg viewBox="0 0 120 60" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M15 42 Q15 28 30 26 L40 16 L78 16 L92 26 Q108 28 108 42 L108 46 L15 46 Z"/><circle cx="34" cy="46" r="7" fill="#122744"/><circle cx="88" cy="46" r="7" fill="#122744"/><line x1="46" y1="16" x2="46" y2="26"/><line x1="70" y1="16" x2="70" y2="26"/></svg>`,
@@ -619,1108 +371,312 @@ const icons = {
   luxury: `<svg viewBox="0 0 140 56" fill="none" stroke="#c9a24b" stroke-width="2"><path d="M6 40 Q6 26 22 24 L40 12 L104 12 L124 24 Q134 26 134 40 L134 44 L6 44 Z"/><circle cx="32" cy="44" r="8" fill="#122744"/><circle cx="104" cy="44" r="8" fill="#122744"/><line x1="50" y1="12" x2="46" y2="24"/><line x1="94" y1="12" x2="98" y2="24"/></svg>`,
 };
 
-// Pour activer l'authentification Discord : créez une application Discord et ajoutez l'URL
-// exacte de cette page comme redirect URI dans la configuration de l'application.
-// Tout le monde peut se connecter avec Discord.
-// Seul l'ID Discord listé ci-dessous aura les droits d'administration.
-const DISCORD_CLIENT_ID = '1522619149094879253';
-const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
-const DISCORD_SCOPES = 'identify';
-const DISCORD_WEBHOOK_URL = ''; // Ajoutez votre webhook Discord ici pour recevoir les demandes de contact
-const ADMIN_DISCORD_IDS = ['401736618420994048'];
-const LOCAL_ADMIN = { username:'montclair', password:'montclair', name:'Théo Montclair' };
-const STORAGE_VEHICLES = 'mtc-vehicles-data';
-const STORAGE_SESSION = 'mtc-montclair-session';
-const STORAGE_USERS = 'mtc-users-data';
-const STORAGE_ADMINS = 'mtc-admins-data';
-const STORAGE_STATS = 'mtc-stats-data';
-const STORAGE_EXPERTISE = 'mtc-expertise-data';
+let vehicles = [
+  {id:1, ref:'MTC-0112', name:'Blista', category:'citadines', moteur:'4 cyl. compact', transmission:'Manuelle', places:'4', price:18500, status:'dispo', photo:null},
+  {id:2, ref:'MTC-0113', name:'Panto', category:'citadines', moteur:'Électrique urbain', transmission:'Automatique', places:'2', price:14200, status:'dispo', photo:null},
+  {id:3, ref:'MTC-0114', name:'Issi', category:'citadines', moteur:'4 cyl. compact', transmission:'Manuelle', places:'4', price:16800, status:'reserve', photo:null},
+  {id:4, ref:'MTC-0221', name:'Sultan', category:'berlines', moteur:'Turbo 4 cyl.', transmission:'Automatique', places:'5', price:32400, status:'dispo', photo:null},
+  {id:5, ref:'MTC-0222', name:'Asea', category:'berlines', moteur:'V6', transmission:'Automatique', places:'5', price:27900, status:'dispo', photo:null},
+  {id:6, ref:'MTC-0223', name:'Premier', category:'berlines', moteur:'6 cyl.', transmission:'Automatique', places:'5', price:24600, status:'vendu', photo:null},
+  {id:7, ref:'MTC-0331', name:'Baller', category:'suv', moteur:'V8', transmission:'Automatique', places:'5', price:58900, status:'dispo', photo:null},
+  {id:8, ref:'MTC-0332', name:'Cavalcade', category:'suv', moteur:'V8', transmission:'Automatique', places:'7', price:52300, status:'reserve', photo:null},
+  {id:9, ref:'MTC-0333', name:'Gresley', category:'suv', moteur:'6 cyl. turbo', transmission:'Automatique', places:'5', price:41700, status:'dispo', photo:null},
+  {id:10, ref:'MTC-0441', name:'Vigero', category:'sport', moteur:'V8 muscle', transmission:'Manuelle', places:'4', price:46500, status:'dispo', photo:null},
+  {id:11, ref:'MTC-0442', name:'Dominator', category:'sport', moteur:'V8 muscle', transmission:'Manuelle', places:'2', price:49800, status:'dispo', photo:null},
+  {id:12, ref:'MTC-0443', name:'Gauntlet', category:'sport', moteur:'V8 muscle', transmission:'Manuelle', places:'2', price:44100, status:'vendu', photo:null},
+  {id:13, ref:'MTC-0551', name:'Bobcat', category:'utilitaires', moteur:'4 cyl. diesel', transmission:'Manuelle', places:'2', price:21300, status:'dispo', photo:null},
+  {id:14, ref:'MTC-0552', name:'Speedo', category:'utilitaires', moteur:'V6', transmission:'Automatique', places:'3', price:23900, status:'dispo', photo:null},
+  {id:15, ref:'MTC-0553', name:'Burrito', category:'utilitaires', moteur:'V6', transmission:'Automatique', places:'2', price:22400, status:'reserve', photo:null},
+  {id:16, ref:'MTC-0661', name:'Windsor', category:'prestige', moteur:'V12', transmission:'Automatique', places:'4', price:118000, status:'dispo', photo:null},
+  {id:17, ref:'MTC-0662', name:'Osiris', category:'prestige', moteur:'V12', transmission:'Automatique', places:'2', price:265000, status:'reserve', photo:null},
+  {id:18, ref:'MTC-0663', name:'Zentorno', category:'prestige', moteur:'V10', transmission:'Automatique', places:'2', price:298000, status:'dispo', photo:null},
+];
+
+let editMode = false;
+let activeFilter = 'toutes';
+let editingId = null;
+let pendingPhoto = null;
+let nextId = 19;
 
 const catalogueEl = document.getElementById('catalogue');
 const filtersEl = document.getElementById('filters');
-const adminPanelEl = document.getElementById('admin-panel');
-const adminContentEl = document.getElementById('admin-content');
-const adminCloseBtn = document.getElementById('admin-close');
-const accountLink = document.getElementById('account-link');
-let activeFilter = 'toutes';
-let editMode = false;
-let modalEditing = null;
-let auth = loadAuth();
-let users = loadUsers();
-let adminIds = loadAdminIds();
-let stats = loadStats();
-let editingVehicle = null;
-let photoPreviewData = null;
-let selectedCategory = categories[0]?.id || '';
+const toggleEditBtn = document.getElementById('toggle-edit');
+const importBtn = document.getElementById('import-btn');
+const tbNote = document.getElementById('tb-note');
+const modalOverlay = document.getElementById('modal-overlay');
+const modalTitle = document.getElementById('modal-title');
+const photoPreview = document.getElementById('photo-preview');
+const fCat = document.getElementById('f-cat');
+const authArea = document.getElementById('auth-area');
 
-function loadStorageData(){
-  const stored = localStorage.getItem(STORAGE_VEHICLES);
-  if(!stored) return null;
-  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
-  return null;
-}
+/* ---------- AUTHENTIFICATION DISCORD ---------- */
+// Scope minimal "identify" : pseudo + ID + avatar uniquement, rien de sensible.
+const DISCORD_CLIENT_ID = '1522619149094879253';
+const DISCORD_REDIRECT_URI = window.location.origin + window.location.pathname;
+const ADMIN_DISCORD_IDS = ['401736618420994048']; // Théo Montclair
 
-function saveStorageData(){
-  localStorage.setItem(STORAGE_VEHICLES, JSON.stringify(categories));
-}
-
-function countSiteClicks(event){
-  const target = event.target.closest('a, button, .filter-btn, .cta');
-  if(!target) return;
-  stats.clicks = (stats.clicks || 0) + 1;
-  if(target.classList.contains('filter-btn')) stats.filterClicks = (stats.filterClicks || 0) + 1;
-  if(target.classList.contains('cta')) stats.ctaClicks = (stats.ctaClicks || 0) + 1;
-  stats.lastVisit = new Date().toISOString();
-  saveStats();
-}
-
-document.addEventListener('click', countSiteClicks);
-
-function loadAuth(){
-  try { return JSON.parse(localStorage.getItem(STORAGE_SESSION) || 'null'); } catch(e){ return null; }
-}
-
-function saveAuth(){
-  localStorage.setItem(STORAGE_SESSION, JSON.stringify(auth));
-}
-
-function loadUsers(){
-  const stored = localStorage.getItem(STORAGE_USERS);
-  if(!stored) return [];
-  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
-  return [];
-}
-
-function saveUsers(){
-  localStorage.setItem(STORAGE_USERS, JSON.stringify(users));
-}
-
-function loadAdminIds(){
-  const stored = localStorage.getItem(STORAGE_ADMINS);
-  if(!stored) return [...ADMIN_DISCORD_IDS];
-  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
-  return [...ADMIN_DISCORD_IDS];
-}
-
-function saveAdminIds(){
-  localStorage.setItem(STORAGE_ADMINS, JSON.stringify(adminIds));
-}
-
-function loadStats(){
-  const stored = localStorage.getItem(STORAGE_STATS);
-  const defaultStats = { pageViews:0, clicks:0, filterClicks:0, ctaClicks:0, lastVisit: new Date().toISOString() };
-  if(!stored) return defaultStats;
-  try { const parsed = JSON.parse(stored); return { ...defaultStats, ...parsed }; } catch(e){}
-  return defaultStats;
-}
-
-function saveStats(){
-  localStorage.setItem(STORAGE_STATS, JSON.stringify(stats));
-}
-
-function loadExpertiseData(){
-  const stored = localStorage.getItem(STORAGE_EXPERTISE);
-  if(!stored) return expertiseNodes;
-  try { const parsed = JSON.parse(stored); if(Array.isArray(parsed)) return parsed; } catch(e){}
-  return expertiseNodes;
-}
-
-function saveExpertiseData(nodes){
-  localStorage.setItem(STORAGE_EXPERTISE, JSON.stringify(nodes));
-}
-
-function incrementStat(key){
-  if(!stats[key] && stats[key] !== 0) stats[key] = 0;
-  stats[key] = (stats[key] || 0) + 1;
-  stats.lastVisit = new Date().toISOString();
-  saveStats();
-}
-
-function ensureUser(user){
-  const discordId = user?.discordId || user?.id;
-  if(!discordId) return;
-  const now = new Date().toISOString();
-  const record = { id:discordId, name:user.name || user.username || 'Discord', lastSeen: now, isAdmin: adminIds.includes(discordId) };
-  const existing = users.find(u=>u.id===discordId);
-  if(existing){
-    existing.name = record.name;
-    existing.lastSeen = record.lastSeen;
-    existing.isAdmin = record.isAdmin;
-  } else {
-    users.push(record);
-  }
-  saveUsers();
-}
-
-function updateAdminStatus(discordId, isAdminStatus){
-  if(isAdminStatus){
-    if(!adminIds.includes(discordId)) adminIds.push(discordId);
-  } else {
-    adminIds = adminIds.filter(id=>id!==discordId);
-  }
-  saveAdminIds();
-  users = users.map(user => ({ ...user, isAdmin: user.id === discordId ? adminIds.includes(discordId) : user.isAdmin }));
-  saveUsers();
-  if(auth && auth.discordId === discordId){
-    auth.isAdmin = adminIds.includes(discordId);
-    saveAuth();
-  }
-}
-
-function clearAuth(){
-  localStorage.removeItem(STORAGE_SESSION);
-  auth = null;
-  updateAccountLink();
-}
+let session = null; // { id, username, avatar } — en mémoire uniquement, effacé au rechargement
 
 function isAdmin(){
-  return auth && auth.isAdmin;
+  return !!(session && ADMIN_DISCORD_IDS.includes(session.id));
 }
 
-function isAuthenticated(){
-  return !!auth;
+function startDiscordLogin(){
+  const url = `https://discord.com/api/oauth2/authorize`
+    + `?client_id=${encodeURIComponent(DISCORD_CLIENT_ID)}`
+    + `&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}`
+    + `&response_type=token&scope=identify`;
+  window.location.href = url;
 }
 
-function updateAccountLink(){
-  accountLink.textContent = isAuthenticated() ? `Mon compte (${auth.name || 'Discord'})` : 'Mon compte';
-}
-
-function parseHashParams(hash){
-  return hash.substring(1).split('&').reduce((acc, part) => {
-    const [key, value] = part.split('=');
-    if(key) acc[key] = decodeURIComponent(value);
-    return acc;
-  }, {});
+function logout(){
+  session = null;
+  editMode = false;
+  updateAuthUI();
+  render();
 }
 
 async function handleDiscordRedirect(){
   if(!window.location.hash.includes('access_token=')) return;
-  const params = parseHashParams(window.location.hash);
-  const token = params.access_token;
+  const params = new URLSearchParams(window.location.hash.slice(1));
+  const token = params.get('access_token');
+  window.history.replaceState({}, document.title, window.location.pathname); // efface le jeton de l'URL
   if(!token) return;
-  window.history.replaceState({}, document.title, window.location.pathname);
-  try {
-    const response = await fetch('https://discord.com/api/users/@me', {
+  try{
+    const res = await fetch('https://discord.com/api/users/@me', {
       headers: { Authorization: `Bearer ${token}` }
     });
-    if(!response.ok) throw new Error('Discord auth impossible');
-    const user = await response.json();
-    auth = {
-      name: user.username ? `${user.username}#${user.discriminator}` : 'Discord',
-      discordId: user.id,
-      isAdmin: adminIds.includes(user.id)
-    };
-    ensureUser(auth);
-    saveAuth();
-    updateAccountLink();
-    renderAdmin();
-  } catch (error) {
-    auth = { name:'Discord', discordId:null, isAdmin:false };
-    saveAuth();
-    updateAccountLink();
+    if(!res.ok) throw new Error('auth échouée');
+    const user = await res.json();
+    const avatarUrl = user.avatar
+      ? `https://cdn.discordapp.com/avatars/${user.id}/${user.avatar}.png?size=32`
+      : `https://cdn.discordapp.com/embed/avatars/${Number(user.discriminator || 0) % 5}.png`;
+    session = { id: user.id, username: user.username, avatar: avatarUrl };
+  }catch(err){
+    alert('La connexion Discord a échoué. Réessaie.');
   }
 }
 
-function startDiscordLogin(){
-  if(!DISCORD_CLIENT_ID){
-    alert('Configurez DISCORD_CLIENT_ID en haut du script pour activer la connexion Discord.');
-    return;
-  }
-  const authUrl = `https://discord.com/api/oauth2/authorize?response_type=token&client_id=${encodeURIComponent(DISCORD_CLIENT_ID)}&scope=${encodeURIComponent(DISCORD_SCOPES)}&redirect_uri=${encodeURIComponent(DISCORD_REDIRECT_URI)}`;
-  window.location.href = authUrl;
-}
-
-function populateCategoryOptions(selectId, selected = ''){
-  const select = document.getElementById(selectId);
-  if(!select) return;
-  select.innerHTML = categories.map(c=>`<option value="${c.id}"${c.id===selected ? ' selected' : ''}>${c.label}</option>`).join('');
-}
-
-function updateToolbar(){
-  const toggleEditBtn = document.getElementById('toggle-edit');
-  const addVehicleBtn = document.getElementById('add-vehicle-btn');
-  const tbNote = document.getElementById('tb-note');
-  if(toggleEditBtn) toggleEditBtn.textContent = editMode ? 'Mode consultation' : 'Mode édition';
-  if(addVehicleBtn) addVehicleBtn.classList.toggle('hidden', !editMode || !isAdmin());
-  if(tbNote) tbNote.textContent = editMode ? 'Mode édition' : 'Mode consultation';
-}
-
-function openVehicleModal(catId, ref){
-  modalEditing = ref ? { catId, ref } : null;
-  const title = document.getElementById('modal-title');
-  const photoPreview = document.getElementById('photo-preview');
-  const refInput = document.getElementById('f-ref');
-  const nameInput = document.getElementById('f-name');
-  const moteurInput = document.getElementById('f-moteur');
-  const transmissionInput = document.getElementById('f-transmission');
-  const placesInput = document.getElementById('f-places');
-  const priceInput = document.getElementById('f-price');
-  const statusInput = document.getElementById('f-status');
-  if(ref){
-    const vehicle = getVehicleData(catId, ref);
-    if(vehicle){
-      title.textContent = 'Modifier le véhicule';
-      refInput.value = vehicle.ref;
-      nameInput.value = vehicle.name;
-      moteurInput.value = vehicle.spec.Moteur;
-      transmissionInput.value = vehicle.spec.Transmission;
-      placesInput.value = vehicle.spec.Places;
-      priceInput.value = vehicle.price.replace(/[^0-9]/g, '');
-      statusInput.value = vehicle.status;
-      photoPreview.innerHTML = vehicle.photo ? `<img src="${vehicle.photo}" alt="Photo du véhicule">` : 'Aucune photo';
-      photoPreviewData = vehicle.photo || null;
-      populateCategoryOptions('f-cat', vehicle.catId);
-    }
+function updateAuthUI(){
+  if(!session){
+    authArea.innerHTML = `<button class="tb-btn primary" id="discord-login">Se connecter avec Discord</button>`;
+    document.getElementById('discord-login').addEventListener('click', startDiscordLogin);
   } else {
-    title.textContent = 'Ajouter un véhicule';
-    refInput.value = '';
-    nameInput.value = '';
-    moteurInput.value = '';
-    transmissionInput.value = '';
-    placesInput.value = '';
-    priceInput.value = '';
-    statusInput.value = 'dispo';
-    photoPreview.innerHTML = 'Aucune photo';
-    photoPreviewData = null;
-    populateCategoryOptions('f-cat', selectedCategory || categories[0]?.id || '');
+    const badge = isAdmin()
+      ? `<span class="auth-badge admin">Admin</span>`
+      : `<span class="auth-badge visitor">Lecture seule</span>`;
+    authArea.innerHTML = `
+      <span class="auth-pill">
+        <img class="auth-avatar" src="${session.avatar}" alt="">
+        ${session.username} ${badge}
+      </span>
+      <button class="tb-btn" id="discord-logout">Se déconnecter</button>
+    `;
+    document.getElementById('discord-logout').addEventListener('click', logout);
   }
-  document.getElementById('modal-overlay').classList.remove('hidden');
+  toggleEditBtn.style.display = isAdmin() ? 'inline-block' : 'none';
+  importBtn.style.display = isAdmin() ? 'inline-block' : 'none';
+  if(!isAdmin() && editMode){ editMode = false; }
 }
 
-function closeVehicleModal(){
-  document.getElementById('modal-overlay').classList.add('hidden');
-  const fileInput = document.getElementById('f-photo');
-  if(fileInput) fileInput.value = '';
+fCat.innerHTML = CATEGORIES.map(c => `<option value="${c.id}">${c.label}</option>`).join('');
+
+function fmtPrice(n){
+  return Number(n).toLocaleString('fr-FR') + ' $';
 }
 
-function handleModalPhotoSelected(event){
-  const file = event.target.files[0];
+function renderFilters(){
+  const all = [{id:'toutes', label:'Toutes'}, ...CATEGORIES];
+  filtersEl.innerHTML = all.map(c =>
+    `<button class="filter-btn ${activeFilter===c.id?'active':''}" data-cat="${c.id}">${c.label}</button>`
+  ).join('');
+  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
+    btn.addEventListener('click', ()=>{ activeFilter = btn.dataset.cat; render(); });
+  });
+}
+
+function render(){
+  renderFilters();
+  const cats = activeFilter==='toutes' ? CATEGORIES : CATEGORIES.filter(c=>c.id===activeFilter);
+  catalogueEl.innerHTML = cats.map(cat => {
+    const list = vehicles.filter(v=>v.category===cat.id);
+    return `
+      <div class="section" id="${cat.id}">
+        <div class="section-head">
+          <span class="section-num">Section ${cat.num}</span>
+          <h2>${cat.label}</h2>
+          <span class="section-count">${list.length} véhicule${list.length!==1?'s':''}</span>
+        </div>
+        ${list.length===0 ? `<div class="section-empty">Aucun véhicule dans cette catégorie pour le moment.</div>` : ''}
+        <div class="grid">
+          ${list.map(v => `
+            <div class="card">
+              <div class="card-visual">
+                <span class="ref">${v.ref}</span>
+                <span class="stamp ${v.status}">${statusLabel[v.status]}</span>
+                ${v.photo ? `<img src="${v.photo}" alt="${v.name}">` : icons[cat.icon]}
+                ${editMode ? `
+                  <div class="admin-controls">
+                    <button class="edit" data-action="edit" data-id="${v.id}" title="Modifier">✎</button>
+                    <button class="del" data-action="delete" data-id="${v.id}" title="Supprimer">✕</button>
+                  </div>
+                ` : ''}
+              </div>
+              <div class="card-body">
+                <div class="card-cat">${cat.label}</div>
+                <h3>${v.name}</h3>
+                <ul class="specs">
+                  <li><span>Moteur</span><span>${v.moteur}</span></li>
+                  <li><span>Transmission</span><span>${v.transmission}</span></li>
+                  <li><span>Places</span><span>${v.places}</span></li>
+                </ul>
+                <div class="card-footer">
+                  <span class="price">${fmtPrice(v.price)}</span>
+                  <a class="cta" href="#" onclick="return false;">Demander une expertise →</a>
+                </div>
+              </div>
+            </div>
+          `).join('')}
+          ${editMode ? `
+            <button class="add-card" data-action="add" data-cat="${cat.id}">
+              <span class="plus">+</span>
+              <span>Ajouter un véhicule</span>
+            </button>
+          ` : ''}
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  catalogueEl.querySelectorAll('[data-action="edit"]').forEach(btn=>{
+    btn.addEventListener('click', ()=>openModal(Number(btn.dataset.id)));
+  });
+  catalogueEl.querySelectorAll('[data-action="delete"]').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      if(confirm('Supprimer ce véhicule du catalogue ?')){
+        vehicles = vehicles.filter(v=>v.id !== Number(btn.dataset.id));
+        render();
+      }
+    });
+  });
+  catalogueEl.querySelectorAll('[data-action="add"]').forEach(btn=>{
+    btn.addEventListener('click', ()=>openModal(null, btn.dataset.cat));
+  });
+}
+
+function openModal(id, presetCat){
+  editingId = id;
+  pendingPhoto = null;
+  const v = id ? vehicles.find(x=>x.id===id) : null;
+  modalTitle.textContent = v ? 'Modifier le véhicule' : 'Ajouter un véhicule';
+  document.getElementById('f-ref').value = v ? v.ref : `MTC-0${Math.floor(100+Math.random()*899)}`;
+  fCat.value = v ? v.category : (presetCat || CATEGORIES[0].id);
+  document.getElementById('f-name').value = v ? v.name : '';
+  document.getElementById('f-moteur').value = v ? v.moteur : '';
+  document.getElementById('f-transmission').value = v ? v.transmission : '';
+  document.getElementById('f-places').value = v ? v.places : '';
+  document.getElementById('f-price').value = v ? v.price : '';
+  document.getElementById('f-status').value = v ? v.status : 'dispo';
+  document.getElementById('f-photo').value = '';
+  if(v && v.photo){
+    photoPreview.innerHTML = `<img src="${v.photo}">`;
+    pendingPhoto = v.photo;
+  } else {
+    photoPreview.textContent = 'Aucune photo';
+  }
+  modalOverlay.classList.add('open');
+}
+
+function closeModal(){
+  modalOverlay.classList.remove('open');
+  editingId = null;
+  pendingPhoto = null;
+}
+
+document.getElementById('f-photo').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = () => {
-    photoPreviewData = reader.result;
-    const preview = document.getElementById('photo-preview');
-    if(preview) preview.innerHTML = `<img src="${photoPreviewData}" alt="Photo du véhicule">`;
+  reader.onload = ()=>{
+    pendingPhoto = reader.result;
+    photoPreview.innerHTML = `<img src="${pendingPhoto}">`;
   };
   reader.readAsDataURL(file);
-}
+});
 
-function saveModalVehicle(event){
-  event.preventDefault();
-  const category = document.getElementById('f-cat').value;
-  const ref = document.getElementById('f-ref').value.trim() || `MTC-${Math.floor(Math.random()*9000)+1000}`;
+document.getElementById('modal-cancel').addEventListener('click', closeModal);
+modalOverlay.addEventListener('click', (e)=>{ if(e.target===modalOverlay) closeModal(); });
+
+document.getElementById('modal-save').addEventListener('click', ()=>{
   const name = document.getElementById('f-name').value.trim();
-  const price = document.getElementById('f-price').value.trim();
-  const engine = document.getElementById('f-moteur').value.trim();
-  const transmission = document.getElementById('f-transmission').value.trim();
-  const seats = document.getElementById('f-places').value.trim();
-  const status = document.getElementById('f-status').value;
-  if(!name || !price || !engine || !transmission || !seats){
-    alert('Remplissez tous les champs pour ajouter ou modifier le véhicule.');
-    return;
-  }
-  const item = {
-    ref,
+  if(!name){ alert('Le nom du véhicule est requis.'); return; }
+  const data = {
+    ref: document.getElementById('f-ref').value.trim() || '—',
     name,
-    spec:{Moteur:engine, Transmission:transmission, Places:seats},
-    price: `${price} $`,
-    status,
-    icon: categories.find(c => c.id===category)?.icon || 'compact',
-    photo: photoPreviewData || undefined
+    category: fCat.value,
+    moteur: document.getElementById('f-moteur').value.trim() || '—',
+    transmission: document.getElementById('f-transmission').value.trim() || '—',
+    places: document.getElementById('f-places').value.trim() || '—',
+    price: Number(document.getElementById('f-price').value) || 0,
+    status: document.getElementById('f-status').value,
+    photo: pendingPhoto,
   };
-  const target = categories.find(c=>c.id===category);
-  if(!target) return;
-  if(modalEditing){
-    const oldCategory = categories.find(c=>c.id===modalEditing.catId);
-    const oldIndex = oldCategory?.vehicles.findIndex(v=>v.ref===modalEditing.ref);
-    if(oldCategory && oldIndex > -1){ oldCategory.vehicles.splice(oldIndex, 1); }
-    target.vehicles.unshift(item);
-    modalEditing = null;
+  if(editingId){
+    const v = vehicles.find(x=>x.id===editingId);
+    Object.assign(v, data);
   } else {
-    target.vehicles.unshift(item);
+    vehicles.push({ id: nextId++, ...data });
   }
-  selectedCategory = category;
-  saveStorageData();
-  render(activeFilter);
-  closeVehicleModal();
-}
+  closeModal();
+  render();
+});
 
-function exportData(){
-  const blob = new Blob([JSON.stringify(categories, null, 2)], { type:'application/json' });
+toggleEditBtn.addEventListener('click', ()=>{
+  if(!isAdmin()){ alert("Seul un compte administrateur peut activer l'édition."); return; }
+  editMode = !editMode;
+  toggleEditBtn.classList.toggle('on', editMode);
+  toggleEditBtn.textContent = editMode ? 'Quitter le mode édition' : 'Mode édition';
+  tbNote.textContent = editMode ? "Mode édition actif — pensez à exporter avant de fermer l'onglet" : 'Mode consultation';
+  render();
+});
+
+document.getElementById('export-btn').addEventListener('click', ()=>{
+  const blob = new Blob([JSON.stringify(vehicles, null, 2)], {type:'application/json'});
   const url = URL.createObjectURL(blob);
   const a = document.createElement('a');
   a.href = url;
-  a.download = 'montclair-catalogue.json';
-  document.body.appendChild(a);
+  a.download = 'montclair-catalogue-data.json';
   a.click();
-  document.body.removeChild(a);
   URL.revokeObjectURL(url);
-}
+});
 
-function importDataFile(event){
-  const file = event.target.files[0];
+document.getElementById('import-btn').addEventListener('click', ()=>{
+  document.getElementById('import-input').click();
+});
+
+document.getElementById('import-input').addEventListener('change', (e)=>{
+  const file = e.target.files[0];
   if(!file) return;
   const reader = new FileReader();
-  reader.onload = () => {
-    try {
+  reader.onload = ()=>{
+    try{
       const data = JSON.parse(reader.result);
-      if(Array.isArray(data)){
-        categories.length = 0;
-        categories.push(...data);
-        saveStorageData();
-        render(activeFilter);
-        renderAdmin();
-      } else {
-        alert('Fichier invalide.');
-      }
-    } catch (error){
-      alert('Impossible de lire le fichier JSON.');
+      if(!Array.isArray(data)) throw new Error('format invalide');
+      vehicles = data;
+      nextId = Math.max(0, ...vehicles.map(v=>v.id||0)) + 1;
+      render();
+      alert('Catalogue importé avec succès.');
+    }catch(err){
+      alert("Le fichier importé n'est pas valide. Assurez-vous qu'il s'agit bien d'un export de ce site.");
     }
   };
   reader.readAsText(file);
-}
-
-function handleContactSubmit(event){
-  event.preventDefault();
-  const name = document.getElementById('contact-name').value.trim();
-  const email = document.getElementById('contact-email').value.trim();
-  const object = document.getElementById('contact-object').value.trim();
-  const message = document.getElementById('contact-message').value.trim();
-  if(!name || !message){
-    alert('Merci de renseigner votre nom et un message.');
-    return;
-  }
-  const content = `Nouvelle demande de contact:\n**Nom:** ${name}\n**Email:** ${email || 'Non fourni'}\n**Objet:** ${object || 'Contact'}\n**Message:** ${message}`;
-  if(DISCORD_WEBHOOK_URL){
-    fetch(DISCORD_WEBHOOK_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content })
-    }).then(response => {
-      if(response.ok){
-        alert('Message envoyé sur Discord.');
-        document.getElementById('contact-form').reset();
-      } else {
-        alert('Erreur lors de l’envoi du message.');
-      }
-    }).catch(() => alert('Erreur lors de l’envoi du message.'));
-  } else {
-    navigator.clipboard.writeText(content).then(() => {
-      alert('Message composé et copié. Collez-le dans Discord pour l’envoyer.');
-      document.getElementById('contact-form').reset();
-    }).catch(() => {
-      alert('Impossible de copier le message. Copiez-le manuellement depuis le formulaire.');
-    });
-  }
-}
-
-function renderExpertise(){
-  const expertiseChart = document.getElementById('expertise-chart');
-  if(!expertiseChart) return;
-  const nodes = loadExpertiseData();
-  expertiseChart.innerHTML = nodes.map(node => `
-    <div class="expertise-node" data-node="${node.id}">
-      <h4>${node.title}</h4>
-      <div class="node-role">${node.role}</div>
-      <p>${node.description}</p>
-      ${isAdmin() && editMode ? `
-        <div class="node-actions">
-          <button type="button" class="button-secondary edit-node" data-node="${node.id}">Modifier</button>
-          <button type="button" class="button-secondary delete-node" data-node="${node.id}">Supprimer</button>
-        </div>
-      ` : ''}
-    </div>
-  `).join('');
-  if(isAdmin() && editMode){
-    expertiseChart.insertAdjacentHTML('afterbegin', `<button id="add-expertise-node" class="tb-btn primary" type="button" style="grid-column:1/-1; justify-self:start;">Ajouter un rôle</button>`);
-    document.getElementById('add-expertise-node').addEventListener('click', () => {
-      const title = prompt('Titre du rôle');
-      const role = prompt('Nom du poste ou du responsable');
-      const description = prompt('Description du rôle');
-      if(title && role){
-        addExpertiseNode({ title, role, description: description || '' });
-      }
-    });
-    expertiseChart.querySelectorAll('.edit-node').forEach(button => {
-      button.addEventListener('click', event => {
-        const id = event.target.dataset.node;
-        editExpertiseNode(id);
-      });
-    });
-    expertiseChart.querySelectorAll('.delete-node').forEach(button => {
-      button.addEventListener('click', event => {
-        const id = event.target.dataset.node;
-        removeExpertiseNode(id);
-      });
-    });
-  }
-}
-
-function saveExpertiseNodes(nodes){
-  saveExpertiseData(nodes);
-}
-
-function addExpertiseNode(node){
-  const nodes = loadExpertiseData();
-  const id = node.title.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `expertise-${Date.now()}`;
-  nodes.push({ id, title: node.title, role: node.role, description: node.description });
-  saveExpertiseData(nodes);
-  renderExpertise();
-}
-
-function editExpertiseNode(id){
-  const nodes = loadExpertiseData();
-  const node = nodes.find(n => n.id === id);
-  if(!node) return;
-  const title = prompt('Titre du rôle', node.title);
-  const role = prompt('Nom du poste ou du responsable', node.role);
-  const description = prompt('Description du rôle', node.description);
-  if(title && role){
-    node.title = title;
-    node.role = role;
-    node.description = description || '';
-    saveExpertiseData(nodes);
-    renderExpertise();
-  }
-}
-
-function removeExpertiseNode(id){
-  const nodes = loadExpertiseData();
-  const node = nodes.find(n => n.id === id);
-  if(!node) return;
-  if(!confirm(`Supprimer le rôle "${node.title}" ?`)) return;
-  saveExpertiseData(nodes.filter(n => n.id !== id));
-  renderExpertise();
-}
-
-function handleToggleEdit(){
-  if(!isAdmin()){
-    renderAdmin();
-    adminPanelEl.classList.remove('hidden');
-    adminPanelEl.setAttribute('aria-hidden', 'false');
-    return;
-  }
-  editMode = !editMode;
-  updateToolbar();
-  render(activeFilter);
-}
-
-function enableCardEditButtons(){
-  if(!isAdmin()) return;
-  catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
-    button.addEventListener('click', event=>{
-      openVehicleModal(event.target.dataset.cat, event.target.dataset.ref);
-    });
-  });
-}
-
-function disableCardEditButtons(){
-  catalogueEl.querySelectorAll('.edit-vehicle').forEach(button=>{
-    button.removeEventListener('click', event=>{});
-  });
-}
-
-function setupToolbarListeners(){
-  document.getElementById('toggle-edit').addEventListener('click', handleToggleEdit);
-  document.getElementById('add-vehicle-btn').addEventListener('click', () => openVehicleModal());
-  const filterSelect = document.getElementById('filter-select');
-  if(filterSelect){
-    filterSelect.addEventListener('change', event => render(event.target.value));
-  }
-  document.getElementById('export-btn').addEventListener('click', exportData);
-  document.getElementById('import-btn').addEventListener('click', () => document.getElementById('import-input').click());
-  document.getElementById('import-input').addEventListener('change', importDataFile);
-  document.getElementById('modal-cancel').addEventListener('click', event => { event.preventDefault(); closeVehicleModal(); });
-  document.getElementById('modal-save').addEventListener('click', saveModalVehicle);
-  document.getElementById('f-photo').addEventListener('change', handleModalPhotoSelected);
-  const contactForm = document.getElementById('contact-form');
-  if(contactForm){
-    contactForm.addEventListener('submit', handleContactSubmit);
-  }
-}
-
-function renderFilters(active){
-  const all = [{id:'toutes', label:'Toutes'}, ...categories.map(c=>({id:c.id, label:c.label}))];
-  filtersEl.innerHTML = all.map(c => `
-    <div class="filter-item">
-      <button class="filter-btn ${active===c.id?'active':''}" data-cat="${c.id}">${c.label}</button>
-      ${isAdmin() && editMode && c.id !== 'toutes' ? `<button class="filter-btn button-secondary delete-filter" data-cat="${c.id}" type="button" title="Supprimer la catégorie">×</button>` : ''}
-    </div>
-  `).join('');
-  if(isAdmin() && editMode){
-    filtersEl.insertAdjacentHTML('beforeend', `<button id="add-category-filter" class="tb-btn primary" type="button">Ajouter une gamme</button>`);
-  }
-  filtersEl.querySelectorAll('.filter-btn').forEach(btn=>{
-    if(btn.classList.contains('delete-filter') || btn.id === 'add-category-filter') return;
-    btn.addEventListener('click', event=>{
-      event.preventDefault();
-      render(btn.dataset.cat);
-    });
-  });
-  filtersEl.querySelectorAll('.delete-filter').forEach(btn=>{
-    btn.addEventListener('click', event=>{
-      event.preventDefault();
-      const id = event.target.dataset.cat;
-      alert('Attention : la suppression d\'une catégorie supprime également tous les véhicules associés.');
-      removeCategory(id);
-    });
-  });
-  const addCategoryFilter = document.getElementById('add-category-filter');
-  if(addCategoryFilter){
-    addCategoryFilter.addEventListener('click', event => {
-      event.preventDefault();
-      const label = prompt('Nom de la nouvelle gamme');
-      if(label) createCategoryFromPrompt(label);
-    });
-  }
-  const filterSelect = document.getElementById('filter-select');
-  if(filterSelect){
-    filterSelect.innerHTML = all.map(c => `<option value="${c.id}"${active===c.id?' selected':''}>${c.label}</option>`).join('');
-  }
-}
-
-function render(active){
-  activeFilter = active;
-  renderFilters(active);
-  renderExpertise();
-  const shown = active==='toutes' ? categories : categories.filter(c=>c.id===active);
-  catalogueEl.innerHTML = shown.map(cat => `
-    <div class="section" id="${cat.id}">
-      <div class="section-head">
-        <span class="section-num">Section ${cat.num}</span>
-        <h2>${cat.label}</h2>
-        <span class="section-count">${cat.vehicles.length} véhicule${cat.vehicles.length>1?'s':''}</span>
-      </div>
-      <div class="grid">
-        ${cat.vehicles.map(v => `
-          <div class="card">
-            <div class="card-visual">
-              <span class="ref">${v.ref}</span>
-              <span class="stamp ${v.status}">${statusLabel[v.status]}</span>
-              ${v.photo ? `<img src="${v.photo}" alt="${v.name}">` : icons[v.icon] || icons.compact}
-            </div>
-            <div class="card-body">
-              <div class="card-cat">${cat.label}</div>
-              <h3>${v.name}</h3>
-              <ul class="specs">
-                ${Object.entries(v.spec).map(([k,val])=>`<li><span>${k}</span><span>${val}</span></li>`).join('')}
-              </ul>
-              ${isAdmin() && editMode ? `<div class="card-admin-controls">
-                <label><span class="hidden">Changer le statut</span>
-                  <select data-cat="${cat.id}" data-ref="${v.ref}" class="status-select">
-                    ${Object.entries(statusLabel).map(([key,label])=>`<option value="${key}"${key===v.status?' selected':''}>${label}</option>`).join('')}
-                  </select>
-                </label>
-                <button type="button" class="filter-btn button-secondary edit-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Modifier</button>
-                <button type="button" class="filter-btn button-secondary remove-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Supprimer</button>
-              </div>` : ''}
-              <div class="card-footer">
-                <span class="price">${v.price}</span>
-                <a class="cta" href="#" onclick="return false;">Demander une expertise →</a>
-              </div>
-            </div>
-          </div>
-        `).join('')}
-      </div>
-    </div>
-  `).join('');
-  if(isAdmin()){
-    catalogueEl.querySelectorAll('.status-select').forEach(select=>{
-      select.addEventListener('change', event=>{
-        updateVehicleStatus(event.target.dataset.cat, event.target.dataset.ref, event.target.value);
-      });
-    });
-  }
-}
-
-catalogueEl.addEventListener('click', event => {
-  const target = event.target instanceof Element ? event.target : event.currentTarget;
-  const editButton = target.closest('.edit-vehicle');
-  if(editButton){
-    event.preventDefault();
-    openVehicleModal(editButton.dataset.cat, editButton.dataset.ref);
-    return;
-  }
-  const removeButton = target.closest('.remove-vehicle');
-  if(removeButton){
-    event.preventDefault();
-    removeVehicle(removeButton.dataset.cat, removeButton.dataset.ref);
-  }
+  e.target.value = '';
 });
-
-function buildCategoryOptions(selected = ''){
-  return categories.map(c=>`<option value="${c.id}"${c.id===selected ? ' selected' : ''}>${c.label}</option>`).join('');
-}
-
-function getVehicleData(catId, ref){
-  const category = categories.find(c=>c.id===catId);
-  if(!category) return null;
-  const vehicle = category.vehicles.find(v=>v.ref===ref);
-  if(!vehicle) return null;
-  return { ...vehicle, catId };
-}
-
-function renderAdmin(){
-  if(!auth){
-    adminContentEl.innerHTML = `
-      <div class="admin-row full">
-        <div class="field">
-          <label for="login-user">Pseudo</label>
-          <input id="login-user" type="text" placeholder="Votre identifiant" autocomplete="username">
-        </div>
-      </div>
-      <div class="admin-row full">
-        <div class="field">
-          <label for="login-pass">Mot de passe</label>
-          <input id="login-pass" type="password" placeholder="Mot de passe" autocomplete="current-password">
-        </div>
-      </div>
-      <div class="actions">
-        <button id="login-submit" class="button-primary">Se connecter</button>
-        <button id="login-discord" type="button" class="button-secondary">Se connecter avec Discord</button>
-      </div>
-      <p class="note">La connexion Discord est ouverte à tous. Seul l'ID administrateur enregistré peut modifier le catalogue.</p>
-    `;
-    document.getElementById('login-submit').addEventListener('click', handlePasswordLogin);
-    document.getElementById('login-discord').addEventListener('click', startDiscordLogin);
-    if(!DISCORD_CLIENT_ID){
-      document.querySelector('.note').textContent += ' Remplissez DISCORD_CLIENT_ID dans le script pour activer la connexion Discord.';
-    }
-    return;
-  }
-
-  const nameLabel = auth.name ? auth.name : 'Utilisateur Discord';
-  const adminMessage = isAdmin() ? 'Vous avez accès complet à la gestion du catalogue.' : 'Vous êtes connecté(e) avec Discord. Seul l’administrateur peut modifier la liste.';
-  const editVehicle = editingVehicle ? getVehicleData(editingVehicle.catId, editingVehicle.ref) : null;
-  const currentCategory = editVehicle ? editVehicle.catId : selectedCategory || categories[0]?.id || '';
-  const photoPreview = photoPreviewData || (editVehicle && editVehicle.photo) || '';
-  const vehicleButtonLabel = editVehicle ? 'Enregistrer les modifications' : 'Ajouter le véhicule';
-  const vehicleTitle = editVehicle ? 'Modifier le véhicule' : 'Ajouter un véhicule';
-  const statusControl = isAdmin() ? `
-      <div class="admin-section">
-        <h3>${vehicleTitle}</h3>
-        <div class="field">
-          <label for="new-photo">Photo du véhicule</label>
-          <div class="photo-preview">${photoPreview ? `<img src="${photoPreview}" alt="Photo du véhicule">` : 'Aucune photo'}</div>
-          <input id="new-photo" type="file" accept="image/*">
-        </div>
-        <div class="admin-row">
-          <div class="field"><label for="new-category">Catégorie</label><select id="new-category">${buildCategoryOptions(currentCategory)}</select></div>
-          <div class="field"><label for="new-ref">Référence</label><input id="new-ref" type="text" placeholder="MTC-1001" value="${editVehicle ? editVehicle.ref : ''}"></div>
-        </div>
-        <div class="admin-row">
-          <div class="field"><label for="new-name">Nom du véhicule</label><input id="new-name" type="text" placeholder="Nom" value="${editVehicle ? editVehicle.name : ''}"></div>
-          <div class="field"><label for="new-price">Prix</label><input id="new-price" type="text" placeholder="45 000 $" value="${editVehicle ? editVehicle.price : ''}"></div>
-        </div>
-        <div class="admin-row">
-          <div class="field"><label for="new-engine">Moteur</label><input id="new-engine" type="text" placeholder="V6" value="${editVehicle ? editVehicle.spec.Moteur : ''}"></div>
-          <div class="field"><label for="new-transmission">Transmission</label><input id="new-transmission" type="text" placeholder="Automatique" value="${editVehicle ? editVehicle.spec.Transmission : ''}"></div>
-        </div>
-        <div class="admin-row">
-          <div class="field"><label for="new-seats">Places</label><input id="new-seats" type="text" placeholder="5" value="${editVehicle ? editVehicle.spec.Places : ''}"></div>
-          <div class="field"><label for="new-icon">Icône</label><select id="new-icon"><option value="compact"${editVehicle && editVehicle.icon==='compact'?' selected':''}>Citadine</option><option value="sedan"${editVehicle && editVehicle.icon==='sedan'?' selected':''}>Berline</option><option value="suv"${editVehicle && editVehicle.icon==='suv'?' selected':''}>SUV</option><option value="muscle"${editVehicle && editVehicle.icon==='muscle'?' selected':''}>Sport</option><option value="van"${editVehicle && editVehicle.icon==='van'?' selected':''}>Utilitaire</option><option value="luxury"${editVehicle && editVehicle.icon==='luxury'?' selected':''}>Prestige</option></select></div>
-        </div>
-        <div class="admin-row">
-          <div class="field"><label for="new-status">Statut</label><select id="new-status"><option value="dispo"${editVehicle && editVehicle.status==='dispo'?' selected':''}>Disponible</option><option value="reserve"${editVehicle && editVehicle.status==='reserve'?' selected':''}>Réservé</option><option value="vendu"${editVehicle && editVehicle.status==='vendu'?' selected':''}>Vendu</option></select></div>
-        </div>
-        <div class="actions">
-          <button id="vehicle-save" class="button-primary">${vehicleButtonLabel}</button>
-          ${editVehicle ? '<button id="vehicle-cancel" class="button-secondary">Annuler</button>' : ''}
-        </div>
-      </div>
-      <div class="admin-section">
-        <h3>Ajouter une gamme</h3>
-        <div class="admin-row full">
-          <div class="field"><label for="new-category-label">Nom de la gamme</label><input id="new-category-label" type="text" placeholder="Nouvelle gamme"></div>
-        </div>
-        <div class="actions"><button id="category-add" class="button-primary">Ajouter la gamme</button></div>
-      </div>
-      <div class="admin-section">
-        <h3>Gérer les gammes</h3>
-        <div class="admin-list">
-          ${categories.map(cat => `
-            <div class="admin-card-row">
-              <span>${cat.label} (${cat.vehicles.length} véhicule${cat.vehicles.length>1?'s':''})</span>
-              <button class="filter-btn button-secondary delete-category" data-cat="${cat.id}">Supprimer</button>
-            </div>
-          `).join('')}
-        </div>
-      </div>
-    ` : '';        
-
-  const vehicleList = categories.map(cat => cat.vehicles.map(v => `
-        <div class="admin-card-row">
-          <div>
-            <span>${cat.label} • ${v.ref} — ${v.name}</span>
-            <span style="display:block; color:var(--slate); margin-top:0.3rem;">${v.spec.Moteur}, ${v.spec.Transmission}, ${v.spec.Places} places</span>
-          </div>
-          <div class="actions">
-            <span>${statusLabel[v.status]}</span>
-            ${isAdmin() ? `<select class="manage-status" data-cat="${cat.id}" data-ref="${v.ref}">${Object.entries(statusLabel).map(([key,label])=>`<option value="${key}"${key===v.status?' selected':''}>${label}</option>`).join('')}</select><button class="filter-btn button-secondary edit-admin-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Modifier</button><button class="filter-btn button-secondary remove-vehicle" data-cat="${cat.id}" data-ref="${v.ref}">Supprimer</button>` : ''}
-          </div>
-        </div>
-      `).join('')).join('');
-
-  const totalVehicles = categories.reduce((sum, cat) => sum + cat.vehicles.length, 0);
-  const totalCategories = categories.length;
-  const totalUsers = users.length;
-  const totalAdmins = adminIds.length;
-  const profileLastSeen = auth.lastSeen ? new Date(auth.lastSeen).toLocaleString('fr-FR') : 'Non renseigné';
-  const serverDashboard = isAdmin() ? `
-    <div class="admin-section">
-      <h3>Vue serveur</h3>
-      <div class="admin-list">
-        <div class="admin-card-row">
-          <div><strong>Visites</strong><div>${stats.pageViews}</div></div>
-          <div><strong>Clics</strong><div>${stats.clicks}</div></div>
-        </div>
-        <div class="admin-card-row">
-          <div><strong>Clics filtres</strong><div>${stats.filterClicks}</div></div>
-          <div><strong>Clics expertise</strong><div>${stats.ctaClicks}</div></div>
-        </div>
-        <div class="admin-card-row">
-          <div><strong>Catégories</strong><div>${totalCategories}</div></div>
-          <div><strong>Véhicules</strong><div>${totalVehicles}</div></div>
-        </div>
-        <div class="admin-card-row">
-          <div><strong>Utilisateurs</strong><div>${totalUsers}</div></div>
-          <div><strong>Admins</strong><div>${totalAdmins}</div></div>
-        </div>
-      </div>
-    </div>
-    <div class="admin-section">
-      <h3>Profil administrateur</h3>
-      <div class="admin-list">
-        <div class="admin-card-row">
-          <div><strong>${nameLabel}</strong><div>${auth.discordId ? `ID: ${auth.discordId}` : 'Local admin'}</div></div>
-          <div><strong>Rôle</strong><div>${isAdmin() ? 'Administrateur' : 'Utilisateur'}</div></div>
-        </div>
-        <div class="admin-card-row">
-          <div><strong>Dernière connexion</strong><div>${profileLastSeen}</div></div>
-          <div><strong>Serveur</strong><div>Montclair Connect</div></div>
-        </div>
-      </div>
-    </div>
-  ` : '';
-
-  adminContentEl.innerHTML = `
-    <p class="note"><strong>${nameLabel}</strong><br>${adminMessage}</p>
-    <div class="actions"><button id="logout-button" class="button-secondary">Se déconnecter</button></div>
-    ${statusControl}
-    ${serverDashboard}
-    <div class="admin-section">
-      <h3>Véhicules enregistrés</h3>
-      <div class="admin-list">${vehicleList}</div>
-    </div>
-  `;
-
-  document.getElementById('logout-button').addEventListener('click', () => {
-    clearAuth();
-    renderAdmin();
-  });
-  if(isAdmin()){
-    const vehicleSaveBtn = document.getElementById('vehicle-save');
-    if(vehicleSaveBtn) vehicleSaveBtn.addEventListener('click', handleSaveVehicle);
-    const vehicleCancelBtn = document.getElementById('vehicle-cancel');
-    if(vehicleCancelBtn) vehicleCancelBtn.addEventListener('click', handleCancelEdit);
-    const photoInput = document.getElementById('new-photo');
-    if(photoInput) photoInput.addEventListener('change', handlePhotoSelected);
-    const categoryAddBtn = document.getElementById('category-add');
-    if(categoryAddBtn) categoryAddBtn.addEventListener('click', handleAddCategory);    const categorySelect = document.getElementById('new-category');
-    if(categorySelect){
-      categorySelect.addEventListener('change', event => {
-        selectedCategory = event.target.value;
-      });
-    }    adminContentEl.querySelectorAll('.edit-vehicle, .edit-admin-vehicle').forEach(button=>{
-      button.addEventListener('click', event=>{
-        openVehicleModal(event.target.dataset.cat, event.target.dataset.ref);
-      });
-    });
-    adminContentEl.querySelectorAll('.delete-category').forEach(button=>{
-      button.addEventListener('click', event=>{
-        const categoryId = event.target.dataset.cat;
-        removeCategory(categoryId);
-      });
-    });
-    adminContentEl.querySelectorAll('.toggle-admin').forEach(button=>{
-      button.addEventListener('click', event=>{
-        const id = event.target.dataset.id;
-        const user = users.find(u=>u.id===id);
-        if(user){
-          updateAdminStatus(id, !user.isAdmin);
-          renderAdmin();
-        }
-      });
-    });
-    adminContentEl.querySelectorAll('.manage-status').forEach(select=>{
-      select.addEventListener('change', event=>{
-        updateVehicleStatus(event.target.dataset.cat, event.target.dataset.ref, event.target.value);
-      });
-    });
-    adminContentEl.querySelectorAll('.remove-vehicle').forEach(button=>{
-      button.addEventListener('click', event=>{
-        removeVehicle(event.target.dataset.cat, event.target.dataset.ref);
-      });
-    });
-  }
-}
-
-function removeCategory(catId){
-  const category = categories.find(c => c.id === catId);
-  if(!category) return;
-  if(!confirm(`Supprimer la gamme "${category.label}" et toutes ses ${category.vehicles.length} véhicule${category.vehicles.length>1?'s':''} ?`)){
-    return;
-  }
-  const index = categories.findIndex(c => c.id === catId);
-  if(index === -1) return;
-  categories.splice(index, 1);
-  if(activeFilter === catId) activeFilter = 'toutes';
-  if(selectedCategory === catId) selectedCategory = categories[0]?.id || '';
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function createCategoryFromPrompt(label){
-  const sanitized = label.trim();
-  if(!sanitized) return;
-  const id = sanitized.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `gamme-${Date.now()}`;
-  if(categories.some(c=>c.id===id)){
-    alert('Cette gamme existe déjà.');
-    return;
-  }
-  const num = (`0${categories.length + 1}`).slice(-2);
-  categories.push({ id, label: sanitized, num, vehicles: [] });
-  selectedCategory = id;
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function handlePasswordLogin(){
-  const login = document.getElementById('login-user').value.trim();
-  const pass = document.getElementById('login-pass').value;
-  if(login === LOCAL_ADMIN.username && pass === LOCAL_ADMIN.password){
-    auth = { name:LOCAL_ADMIN.name, isAdmin:true, lastSeen: new Date().toISOString() };
-    saveAuth();
-    updateAccountLink();
-    renderAdmin();
-  } else {
-    alert('Identifiant ou mot de passe incorrect.');
-  }
-}
-
-function openEditVehicle(catId, ref){
-  editingVehicle = { catId, ref };
-  const vehicle = getVehicleData(catId, ref);
-  if(vehicle){
-    photoPreviewData = vehicle.photo || null;
-  }
-  renderAdmin();
-}
-
-function handleCancelEdit(event){
-  event.preventDefault();
-  editingVehicle = null;
-  photoPreviewData = null;
-  renderAdmin();
-}
-
-function handlePhotoSelected(event){
-  const file = event.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = () => {
-    photoPreviewData = reader.result;
-    renderAdmin();
-  };
-  reader.readAsDataURL(file);
-}
-
-function handleAddCategory(event){
-  event.preventDefault();
-  const label = (document.getElementById('new-category-label') || {}).value?.trim();
-  if(!label){
-    alert('Donnez un nom à la nouvelle gamme.');
-    return;
-  }
-  const id = label.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-+|-+$/g,'') || `gamme-${Date.now()}`;
-  if(categories.some(c=>c.id===id)){
-    alert('Cette gamme existe déjà.');
-    return;
-  }
-  const num = (`0${categories.length + 1}`).slice(-2);
-  categories.push({ id, label, num, vehicles: [] });
-  selectedCategory = id;
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function handleSaveVehicle(event){
-  event.preventDefault();
-  const editVehicle = editingVehicle ? getVehicleData(editingVehicle.catId, editingVehicle.ref) : null;
-  const category = document.getElementById('new-category').value;
-  const ref = document.getElementById('new-ref').value.trim() || `MTC-${Math.floor(Math.random()*9000)+1000}`;
-  const name = document.getElementById('new-name').value.trim();
-  const price = document.getElementById('new-price').value.trim();
-  const engine = document.getElementById('new-engine').value.trim();
-  const transmission = document.getElementById('new-transmission').value.trim();
-  const seats = document.getElementById('new-seats').value.trim();
-  const icon = document.getElementById('new-icon').value;
-  const status = document.getElementById('new-status').value;
-  if(!name || !price || !engine || !transmission || !seats){
-    alert('Remplissez tous les champs pour ajouter ou modifier le véhicule.');
-    return;
-  }
-  const item = {
-    ref,
-    name,
-    spec:{Moteur:engine, Transmission:transmission, Places:seats},
-    price,
-    status,
-    icon,
-    photo: photoPreviewData !== null ? photoPreviewData : (editVehicle ? editVehicle.photo : undefined)
-  };
-  const target = categories.find(c=>c.id===category);
-  if(!target) return;
-  if(editingVehicle){
-    const oldCategory = categories.find(c=>c.id===editingVehicle.catId);
-    const oldVehicleIndex = oldCategory?.vehicles.findIndex(v=>v.ref===editingVehicle.ref);
-    if(oldVehicleIndex !== undefined && oldVehicleIndex > -1){
-      oldCategory.vehicles.splice(oldVehicleIndex, 1);
-    }
-    target.vehicles.unshift(item);
-    editingVehicle = null;
-  } else {
-    target.vehicles.unshift(item);
-  }
-  photoPreviewData = null;
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function handleAddVehicle(){
-  const category = document.getElementById('new-category').value;
-  const ref = document.getElementById('new-ref').value.trim() || `MTC-${Math.floor(Math.random()*9000)+1000}`;
-  const name = document.getElementById('new-name').value.trim();
-  const price = document.getElementById('new-price').value.trim();
-  const engine = document.getElementById('new-engine').value.trim();
-  const transmission = document.getElementById('new-transmission').value.trim();
-  const seats = document.getElementById('new-seats').value.trim();
-  const icon = document.getElementById('new-icon').value;
-  const status = document.getElementById('new-status').value;
-  if(!name || !price || !engine || !transmission || !seats){
-    alert('Remplissez tous les champs pour ajouter le véhicule.');
-    return;
-  }
-  const target = categories.find(c=>c.id===category);
-  if(!target) return;
-  target.vehicles.unshift({ ref, name, spec:{Moteur:engine, Transmission:transmission, Places:seats}, price, status, icon });
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function updateVehicleStatus(catId, ref, status){
-  const category = categories.find(c=>c.id===catId);
-  if(!category) return;
-  const vehicle = category.vehicles.find(v=>v.ref===ref);
-  if(!vehicle) return;
-  vehicle.status = status;
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-function removeVehicle(catId, ref){
-  const category = categories.find(c=>c.id===catId);
-  if(!category) return;
-  category.vehicles = category.vehicles.filter(v=>v.ref!==ref);
-  saveStorageData();
-  render(activeFilter);
-  renderAdmin();
-}
-
-accountLink.addEventListener('click', event=>{
-  event.preventDefault();
-  renderAdmin();
-  adminPanelEl.classList.remove('hidden');
-  adminPanelEl.setAttribute('aria-hidden', 'false');
-});
-
-adminCloseBtn.addEventListener('click', ()=>{
-  adminPanelEl.classList.add('hidden');
-  adminPanelEl.setAttribute('aria-hidden', 'true');
-});
-
-let isDraggingAdmin = false;
-let dragOffset = { x: 0, y: 0 };
-
-function setAdminCardCenter(){
-  const adminCard = adminPanelEl.querySelector('.admin-card');
-  if(!adminCard) return;
-  adminCard.style.left = '50%';
-  adminCard.style.top = '50%';
-  adminCard.style.transform = 'translate(-50%, -50%)';
-}
-
-function startAdminDrag(event){
-  const adminCard = adminPanelEl.querySelector('.admin-card');
-  if(!adminCard || event.target.closest('button') || event.target.tagName === 'SELECT' || event.target.tagName === 'INPUT') return;
-  isDraggingAdmin = true;
-  adminCard.classList.add('dragging');
-  const rect = adminCard.getBoundingClientRect();
-  dragOffset.x = event.clientX - rect.left;
-  dragOffset.y = event.clientY - rect.top;
-  document.addEventListener('pointermove', moveAdminCard);
-  document.addEventListener('pointerup', stopAdminDrag);
-}
-
-function moveAdminCard(event){
-  if(!isDraggingAdmin) return;
-  const adminCard = adminPanelEl.querySelector('.admin-card');
-  if(!adminCard) return;
-  const overlayRect = adminPanelEl.getBoundingClientRect();
-  const rect = adminCard.getBoundingClientRect();
-  let x = event.clientX - dragOffset.x;
-  let y = event.clientY - dragOffset.y;
-  x = Math.min(Math.max(x, overlayRect.left), overlayRect.right - rect.width);
-  y = Math.min(Math.max(y, overlayRect.top), overlayRect.bottom - rect.height);
-  adminCard.style.left = `${x}px`;
-  adminCard.style.top = `${y}px`;
-  adminCard.style.transform = 'translate(0, 0)';
-}
-
-function stopAdminDrag(){
-  if(!isDraggingAdmin) return;
-  isDraggingAdmin = false;
-  const adminCard = adminPanelEl.querySelector('.admin-card');
-  if(adminCard) adminCard.classList.remove('dragging');
-  document.removeEventListener('pointermove', moveAdminCard);
-  document.removeEventListener('pointerup', stopAdminDrag);
-}
-
-adminPanelEl.addEventListener('pointerdown', event => {
-  if(event.target.closest('.admin-toolbar')) startAdminDrag(event);
-});
-
-adminPanelEl.addEventListener('transitionend', () => {
-  if(!adminPanelEl.classList.contains('hidden')) setAdminCardCenter();
-});
-
-const persisted = loadStorageData();
-if(persisted){
-  categories.length = 0;
-  categories.push(...persisted);
-}
 
 handleDiscordRedirect().finally(()=>{
-  updateAccountLink();
-  render('toutes');
-  updateToolbar();
-  setupToolbarListeners();
+  updateAuthUI();
+  render();
 });
 </script>
 
